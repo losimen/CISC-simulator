@@ -8,6 +8,10 @@
 #include <vector>
 #include <string>
 
+#define AMOUNT_OF_REGISTERS 8
+#define MAX_LABEL_LENGTH 7
+#define MAX_LABELS_AMOUNT 100
+
 namespace Info
 {
     const std::vector<std::string> opcodes {".fill",
@@ -19,6 +23,8 @@ namespace Info
                                             "jalr",
                                             "noop",
                                             "halt"};
+
+    std::array<Register, AMOUNT_OF_REGISTERS> registers;
 }
 
 
