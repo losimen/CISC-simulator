@@ -26,8 +26,10 @@ void FileWorker::write(const std::string &text)
 }
 
 
-std::string FileWorker::read()
+FileContent FileWorker::read()
 {
+    FileContent result;
+
     std::ifstream file;
     file.open(fileName);
 
@@ -36,7 +38,10 @@ std::string FileWorker::read()
         throw std::runtime_error("Error in opening file - " + fileName);
     }
 
-    std::string str((std::istreambuf_iterator<char>(file)),
-                    std::istreambuf_iterator<char>());
-    return str;
+    for(std::string line; getline(file, line); )
+    {
+        result.push_back(line);
+    }
+
+    return result;
 }

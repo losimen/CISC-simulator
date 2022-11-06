@@ -7,6 +7,9 @@
 
 #include <iostream>
 #include <fstream>
+#include <vector>
+
+typedef std::vector<std::string> FileContent;
 
 class FileWorker
 {
@@ -17,7 +20,7 @@ public:
     explicit FileWorker(std::string fileName);
 
     void write(const std::string &text);
-    std::string read();
+    FileContent read();
 };
 
 
