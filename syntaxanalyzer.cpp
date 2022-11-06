@@ -22,7 +22,6 @@ const std::vector<std::string> SyntaxAnalyzer::labelAlphabetName {"a", "b", "c",
 SyntaxAnalyzer::SyntaxAnalyzer()
 {
     labels = std::vector<std::string>();
-    variables = std::vector<std::string>();
 }
 
 
@@ -35,7 +34,7 @@ Code SyntaxAnalyzer::analyzeCode(std::string line)
 
     result = parseCode(line);
 
-    if (result["label"] != "")
+    if (!result["label"].empty())
         checkLabel(result);
 
     checkOpcode(result);
@@ -51,7 +50,7 @@ void SyntaxAnalyzer::removeDuplicatedSpaces(std::string &line)
     std::string::iterator new_end = std::unique(line.begin(), line.end(),
                                                 [](char lhs, char rhs)
                                                 {
-                                                        return (lhs == rhs) && (lhs == ' ');;
+                                                        return (lhs == rhs) && (lhs == ' ');
                                                 }
     );
     line.erase(new_end, line.end());

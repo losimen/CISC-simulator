@@ -29,7 +29,6 @@ private:
     std::array<Register, AMOUNT_OF_REGISTERS> registers;
 
     std::vector<std::string> labels;
-    std::vector<std::string> variables;
 
     static void removeDuplicatedSpaces(std::string &line);
     static void checkRegisterArg(const std::string &registerName);
@@ -38,10 +37,10 @@ private:
 
     static void checkRegister(Code &code);
     void checkLabel(Code &code);
-    void checkAddress(Code &code);
-    void checkOpcode(Code &code);
+    static void checkAddress(Code &code);
+    static void checkOpcode(Code &code);
 
-    Code parseCode(std::string line);
+    static Code parseCode(std::string line);
 
 public:
     SyntaxAnalyzer();
