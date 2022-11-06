@@ -3,6 +3,7 @@
 //
 
 #include "syntaxanalyzer.h"
+#include "info.h"
 
 using namespace Info;
 

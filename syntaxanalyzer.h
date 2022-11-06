@@ -13,7 +13,7 @@
 #include <algorithm>
 #include <regex>
 
-#include "info.h"
+#include "int24_t.h"
 
 
 #define AMOUNT_OF_REGISTERS 8
@@ -21,7 +21,7 @@
 #define MAX_LABELS_AMOUNT 100
 
 
-typedef std::map<int, int> Register;
+typedef std::map<int, int24_t> Register;
 typedef std::map<std::string, std::string> Code;
 
 class SyntaxAnalyzer
@@ -43,7 +43,6 @@ private:
     static void checkOpcode(Code &code);
 
     static Code parseCode(std::string line);
-
 public:
     SyntaxAnalyzer();
 
