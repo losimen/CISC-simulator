@@ -13,6 +13,9 @@
 #include <algorithm>
 #include <regex>
 
+#include "info.h"
+
+
 #define AMOUNT_OF_REGISTERS 8
 #define MAX_LABEL_LENGTH 7
 #define MAX_LABELS_AMOUNT 100
@@ -24,7 +27,6 @@ typedef std::map<std::string, std::string> Code;
 class SyntaxAnalyzer
 {
 private:
-    static const std::vector<std::string> opcodes;
     static const std::vector<std::string> labelAlphabetName;
     std::array<Register, AMOUNT_OF_REGISTERS> registers;
 
