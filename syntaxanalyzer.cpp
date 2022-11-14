@@ -18,16 +18,16 @@ SyntaxAnalyzer::SyntaxAnalyzer()
 }
 
 
-Code SyntaxAnalyzer::analyzeCode(std::string line)
+Command SyntaxAnalyzer::analyzeCode(std::string line)
 {
-    Code result;
+    Command result;
 
     removeDuplicatedSpaces(line);
-    std::cout << "--Line: " << line << std::endl;
+    // std::cout << "--Line: " << line << std::endl;
 
     result = parseCode(line);
 
-    if (!result["label"].empty())
+    if (!result.label.empty())
         checkLabel(result);
 
     checkOpcode(result);
@@ -50,19 +50,13 @@ void SyntaxAnalyzer::removeDuplicatedSpaces(std::string &line)
 }
 
 
-Code SyntaxAnalyzer::parseCode(std::string line)
+Command SyntaxAnalyzer::parseCode(std::string line)
 {
-    Code result;
-
-    result["label"] = "";
-    result["opcode"] = "";
-    result["arg0"] = "";
-    result["arg1"] = "";
-    result["arg2"] = "";
+    Command result;
 
     if (line[0] != ' ')
     {
-        result["label"] = line.substr(0, line.find(' '));
+        result.label = line.substr(0, line.find(' '));
         line = line.substr(line.find(' ') + 1);
     }
     else
@@ -70,41 +64,41 @@ Code SyntaxAnalyzer::parseCode(std::string line)
         line = line.substr(line.find(' ') + 1);
     }
 
-    result["opcode"] = line.substr(0, line.find(' '));
+    result.opcode = line.substr(0, line.find(' '));
     line = line.substr(line.find(' ') + 1);
 
-    result["arg0"] = line.substr(0, line.find(' '));
+    result.arg0 = line.substr(0, line.find(' '));
     line = line.substr(line.find(' ') + 1);
 
-    result["arg1"] = line.substr(0, line.find(' '));
+    result.arg1 = line.substr(0, line.find(' '));
     line = line.substr(line.find(' ') + 1);
 
-    result["arg2"] = line.substr(0, line.find(' '));
+    result.arg2 = line.substr(0, line.find(' '));
 
-    std::cout << "LABEL " << result["label"] << std::endl;
-    std::cout << "OPCODE " << result["opcode"] << std::endl;
-    std::cout << "ARG0 " << result["arg0"] << std::endl;
-    std::cout << "ARG1 " << result["arg1"] << std::endl;
-    std::cout << "ARG2 " << result["arg2"] << std::endl;
+    std::cout << "LABEL " << result.label << std::endl;
+    std::cout << "OPCODE " << result.opcode << std::endl;
+    std::cout << "ARG0 " << result.arg0 << std::endl;
+    std::cout << "ARG1 " << result.arg1 << std::endl;
+    std::cout << "ARG2 " << result.arg2 << std::endl;
     std::cout << std::endl;
 
     return result;
 }
 
 
-void SyntaxAnalyzer::checkRegister(Code &code)
+void SyntaxAnalyzer::checkRegister(Command &command)
 {
-    if (code["opcode"] == "add" || code["opcode"] == "nand" ||
-        code["opcode"] == "lw" || code["opcode"] == "sw" ||
-        code["opcode"] == "beq" || code["opcode"] == "jalr")
+    if (command.opcode == "add" || command.opcode == "nand" ||
+        command.opcode == "lw" || command.opcode == "sw" ||
+        command.opcode == "beq" || command.opcode == "jalr")
     {
-        checkRegisterArg(code["arg0"]);
-        checkRegisterArg(code["arg1"]);
+        checkRegisterArg(command.arg0);
+        checkRegisterArg(command.arg1);
     }
 
-    if (code["opcode"] == "add" || code["opcode"] == "nande")
+    if (command.opcode == "add" || command.opcode == "nand")
     {
-        checkRegisterArg(code["arg2"]);
+        checkRegisterArg(command.arg2);
     }
 }
 
@@ -123,33 +117,34 @@ void SyntaxAnalyzer::checkRegisterArg(const std::string &registerName)
 }
 
 
-void SyntaxAnalyzer::checkAddress(Code &code)
+void SyntaxAnalyzer::checkAddress(Command &command)
 {
-    if (code["opcode"] == "lw" || code["opcode"] == "sw" ||
-        code["opcode"] == "beq")
+    if (command.opcode == "lw" || command.opcode == "sw" ||
+        command.opcode == "beq")
     {
-        checkAddressArg(code["arg2"]);
+        checkAddressArg(command.opcode);
     }
 
-    if (code["opcode"] == ".fill")
+    if (command.opcode == ".fill")
     {
-        checkAddressArg(code["arg0"]);
+        checkAddressArg(command.opcode);
     }
 }
 
 
-void SyntaxAnalyzer::checkOpcode(Code &code)
+void SyntaxAnalyzer::checkOpcode(Command &code)
 {
-    if (std::find(opcodes.begin(), opcodes.end(), code["opcode"]) == opcodes.end())
+    if (std::find(opcodes.begin(), opcodes.end(), code.opcode) == opcodes.end())
     {
-        throw std::runtime_error("Unknown opcode - " + code["opcode"]);
+        throw std::runtime_error("Unknown opcode - " + code.opcode);
     }
 }
 
 
 void SyntaxAnalyzer::checkAddressArg(const std::string &address)
 {
-    checkLabelName(address);
+    // TODO: change
+    // checkLabelName(address);
 }
 
 
@@ -175,15 +170,15 @@ void SyntaxAnalyzer::checkLabelName(const std::string &labelName)
 }
 
 
-void SyntaxAnalyzer::checkLabel(Code &code)
+void SyntaxAnalyzer::checkLabel(Command &command)
 {
-    checkLabelName(code["label"]);
+    checkLabelName(command.label);
 
-    if (std::find(labels.begin(), labels.end(), code["label"]) != labels.end())
+    if (std::find(labels.begin(), labels.end(), command.label) != labels.end())
     {
         throw std::runtime_error("Label already exists");
     }
-    labels.push_back(code["label"]);
+    labels.push_back(command.label);
 
     if (labels.size() > MAX_LABELS_AMOUNT)
     {

@@ -14,7 +14,7 @@ int main() {
     {
         try
         {
-            Code code = syntaxAnalyzer.analyzeCode(line);
+            Command code = syntaxAnalyzer.analyzeCode(line);
             lineCounter++;
         }
         catch (std::exception &e)

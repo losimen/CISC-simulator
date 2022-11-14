@@ -14,10 +14,10 @@
 #include <regex>
 
 #include "int24_t.h"
-
+#include "command.h"
 
 typedef std::map<int, int24_t> Register;
-typedef std::map<std::string, std::string> Code;
+
 
 class SyntaxAnalyzer
 {
@@ -30,16 +30,16 @@ private:
     static void checkAddressArg(const std::string &address);
     static void checkLabelName(const std::string &labelName);
 
-    static void checkRegister(Code &code);
-    void checkLabel(Code &code);
-    static void checkAddress(Code &code);
-    static void checkOpcode(Code &code);
+    static void checkRegister(Command &command);
+    void checkLabel(Command &command);
+    static void checkAddress(Command &command);
+    static void checkOpcode(Command &code);
 
-    static Code parseCode(std::string line);
+    static Command parseCode(std::string line);
 public:
     SyntaxAnalyzer();
 
-    Code analyzeCode(std::string line);
+    Command analyzeCode(std::string line);
 };
 
 
