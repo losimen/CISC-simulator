@@ -13,6 +13,7 @@
 #include <algorithm>
 #include <regex>
 
+#include "syntaxerror.h"
 #include "int24_t.h"
 #include "command.h"
 
@@ -30,28 +31,31 @@ typedef std::map<int, int24_t> Register;
 
 #define FILL ".fill"
 
+typedef std::vector<Command> Commands;
+
 
 class SyntaxAnalyzer
 {
 private:
+    Command command;
+
     static const std::vector<std::string> labelAlphabet;
     std::vector<std::string> labels;
 
-    static void removeDuplicatedSpaces(std::string &line);
-    static void checkRegisterArg(const std::string &registerName);
-    static void checkAddressArg(const std::string &address);
-    static void checkLabelName(const std::string &labelName);
+    void removeDuplicatedSpaces(std::string &line);
+    void checkRegisterArg(const std::string &registerName);
+    void checkLabelName(const std::string &labelName);
 
-    static void checkRegister(Command &command);
-    void checkLabel(Command &command);
-    static void checkAddress(Command &command);
-    static void checkOpcode(Command &code);
+    void checkRegister();
+    void checkLabel();
+    void checkAddress();
+    void checkOpcode();
 
-    static Command parseCode(std::string line);
+    void parseCode(std::string line);
 public:
     SyntaxAnalyzer();
 
-    Command analyzeCode(std::string line);
+    Commands analyzeCode(std::vector<std::string> fileContent);
 };
 
 

@@ -9,13 +9,35 @@
 
 struct Command
 {
+    unsigned int line;
+
     std::string label;
     std::string opcode;
     std::string arg0;
     std::string arg1;
     std::string arg2;
 
-    Command() = default;
+    Command()
+    {
+        line = 0;
+        label = "";
+        opcode = "";
+        arg0 = "";
+        arg1 = "";
+        arg2 = "";
+    }
+
+    void clear()
+    {
+        line = 0;
+
+        label.clear();
+        opcode.clear();
+        arg0.clear();
+        arg1.clear();
+        arg2.clear();
+    }
+
 };
 
 

@@ -18,23 +18,29 @@ SyntaxAnalyzer::SyntaxAnalyzer()
 }
 
 
-Command SyntaxAnalyzer::analyzeCode(std::string line)
+Commands SyntaxAnalyzer::analyzeCode(std::vector<std::string> fileContent)
 {
-    Command result;
+    Commands commands;
 
-    removeDuplicatedSpaces(line);
-    // std::cout << "--Line: " << line << std::endl;
+    for (auto &line : fileContent)
+    {
+        command.clear();
+        command.line = commands.size() + 1;
 
-    result = parseCode(line);
+        removeDuplicatedSpaces(line);
+        parseCode(line);
 
-    if (!result.label.empty())
-        checkLabel(result);
+        if (!command.label.empty())
+            checkLabel();
 
-    checkOpcode(result);
-    checkRegister(result);
-    checkAddress(result);
+        checkOpcode();
+        checkRegister();
+        checkAddress();
 
-    return result;
+        commands.push_back(command);
+    }
+
+    return commands;
 }
 
 
@@ -50,13 +56,11 @@ void SyntaxAnalyzer::removeDuplicatedSpaces(std::string &line)
 }
 
 
-Command SyntaxAnalyzer::parseCode(std::string line)
+void SyntaxAnalyzer::parseCode(std::string line)
 {
-    Command result;
-
     if (line[0] != ' ')
     {
-        result.label = line.substr(0, line.find(' '));
+        command.label = line.substr(0, line.find(' '));
         line = line.substr(line.find(' ') + 1);
     }
     else
@@ -64,30 +68,27 @@ Command SyntaxAnalyzer::parseCode(std::string line)
         line = line.substr(line.find(' ') + 1);
     }
 
-    result.opcode = line.substr(0, line.find(' '));
+    command.opcode = line.substr(0, line.find(' '));
     line = line.substr(line.find(' ') + 1);
 
-
-    result.arg0 = line.substr(0, line.find(' '));
+    command.arg0 = line.substr(0, line.find(' '));
     line = line.substr(line.find(' ') + 1);
 
-    result.arg1 = line.substr(0, line.find(' '));
+    command.arg1 = line.substr(0, line.find(' '));
     line = line.substr(line.find(' ') + 1);
 
-    result.arg2 = line.substr(0, line.find(' '));
+    command.arg2 = line.substr(0, line.find(' '));
 
-    std::cout << "LABEL " << result.label << std::endl;
-    std::cout << "OPCODE " << result.opcode << std::endl;
-    std::cout << "ARG0 " << result.arg0 << std::endl;
-    std::cout << "ARG1 " << result.arg1 << std::endl;
-    std::cout << "ARG2 " << result.arg2 << std::endl;
+    std::cout << "LABEL " << command.label << std::endl;
+    std::cout << "OPCODE " << command.opcode << std::endl;
+    std::cout << "ARG0 " << command.arg0 << std::endl;
+    std::cout << "ARG1 " << command.arg1 << std::endl;
+    std::cout << "ARG2 " << command.arg2 << std::endl;
     std::cout << std::endl;
-
-    return result;
 }
 
 
-void SyntaxAnalyzer::checkRegister(Command &command)
+void SyntaxAnalyzer::checkRegister()
 {
     if (command.opcode == ADD || command.opcode == NAND ||
         command.opcode == LW || command.opcode == SW ||
@@ -108,44 +109,37 @@ void SyntaxAnalyzer::checkRegisterArg(const std::string &registerName)
 {
     if (!std::isdigit(registerName[0]))
     {
-        throw std::runtime_error("Register name must be digit number");
+        throw SyntaxError(command.line ,"Register name must be digit number");
     }
 
     if (std::stoi(registerName) < 0 || std::stoi(registerName) > 7)
     {
-        throw std::runtime_error("Register number is out of range");
+        throw SyntaxError(command.line ,"Register number is out of range");
     }
 }
 
 
-void SyntaxAnalyzer::checkAddress(Command &command)
+void SyntaxAnalyzer::checkAddress()
 {
     if (command.opcode == LW || command.opcode == SW ||
         command.opcode == BEQ)
     {
-        checkAddressArg(command.opcode);
+        checkLabelName(command.arg2);
     }
 
     if (command.opcode == FILL)
     {
-        checkAddressArg(command.opcode);
+        checkLabelName(command.arg1);
     }
 }
 
 
-void SyntaxAnalyzer::checkOpcode(Command &code)
+void SyntaxAnalyzer::checkOpcode()
 {
-    if (std::find(opcodes.begin(), opcodes.end(), code.opcode) == opcodes.end())
+    if (std::find(opcodes.begin(), opcodes.end(), command.opcode) == opcodes.end())
     {
-        throw std::runtime_error("Unknown opcode - " + code.opcode);
+        throw SyntaxError(command.line ,"Unknown opcode - " + command.opcode);
     }
-}
-
-
-void SyntaxAnalyzer::checkAddressArg(const std::string &address)
-{
-    // TODO: change
-    // checkLabelName(address);
 }
 
 
@@ -153,36 +147,36 @@ void SyntaxAnalyzer::checkLabelName(const std::string &labelName)
 {
     if (std::isdigit(labelName[0]))
     {
-        throw std::runtime_error("Label name must not start with digit");
+        throw SyntaxError(command.line ,"Label name must not start with digit");
     }
 
     if (labelName.length() > MAX_LABEL_LENGTH)
     {
-        throw std::runtime_error("Label name is too long");
+        throw SyntaxError(command.line ,"Label name is too long");
     }
 
     for (auto &ch: labelName)
     {
         if (std::find(labelAlphabet.begin(), labelAlphabet.end(), std::string(1, ch)) == labelAlphabet.end())
         {
-            throw std::runtime_error("Label name contains invalid character");
+            throw SyntaxError(command.line ,"Label name contains invalid character");
         }
     }
 }
 
 
-void SyntaxAnalyzer::checkLabel(Command &command)
+void SyntaxAnalyzer::checkLabel()
 {
     checkLabelName(command.label);
 
     if (std::find(labels.begin(), labels.end(), command.label) != labels.end())
     {
-        throw std::runtime_error("Label already exists");
+        throw SyntaxError(command.line ,"Error Label already exists");
     }
     labels.push_back(command.label);
 
     if (labels.size() > MAX_LABELS_AMOUNT)
     {
-        throw std::runtime_error("Too many labels");
+        throw SyntaxError(command.line ,"Too many labels");
     }
 }
