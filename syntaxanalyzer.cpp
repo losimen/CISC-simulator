@@ -171,7 +171,7 @@ void SyntaxAnalyzer::checkLabel()
 
     if (std::find(labels.begin(), labels.end(), command.label) != labels.end())
     {
-        throw SyntaxError(command.line ,"Error Label already exists");
+        throw SyntaxError(command.line ,"Label already exists");
     }
     labels.push_back(command.label);
 

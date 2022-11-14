@@ -22,7 +22,7 @@ public:
 
     SyntaxError(unsigned int line, std::string message)
     {
-        this->message = "ERROR in line: " + std::to_string(line) + ": " + message;
+        this->message = "ERROR in line: " + std::to_string(line) + "| " + message;
     }
 
 };

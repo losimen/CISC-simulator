@@ -4,7 +4,7 @@
 #include "syntaxanalyzer.h"
 
 int main() {
-    FileWorker fileWorker("example.txt");
+    FileWorker fileWorker("test_cases/Label_Correct.txt");
     FileContent fileContent = fileWorker.read();
     std::vector<Command> commands;
 

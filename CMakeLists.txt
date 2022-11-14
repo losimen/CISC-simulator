@@ -18,7 +18,7 @@ enable_testing()
 
 add_executable(
         hello_test
-        assember_test.cpp
+        assember_test.cpp fileworker.cpp fileworker.h syntaxanalyzer.cpp syntaxanalyzer.h int24_t.cpp int24_t.h info.h
 )
 
 add_executable(
