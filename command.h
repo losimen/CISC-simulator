@@ -14,6 +14,8 @@ struct Command
     std::string arg0;
     std::string arg1;
     std::string arg2;
+
+    Command() = default;
 };
 
 

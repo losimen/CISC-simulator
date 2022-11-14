@@ -7,9 +7,9 @@
 
 using namespace Info;
 
-const std::vector<std::string> SyntaxAnalyzer::labelAlphabetName {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",
-                                                                 "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
-                                                                 "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "_", "$"};
+const std::vector<std::string> SyntaxAnalyzer::labelAlphabet {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",
+                                                              "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
+                                                              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "_", "$"};
 
 
 SyntaxAnalyzer::SyntaxAnalyzer()
@@ -67,6 +67,7 @@ Command SyntaxAnalyzer::parseCode(std::string line)
     result.opcode = line.substr(0, line.find(' '));
     line = line.substr(line.find(' ') + 1);
 
+
     result.arg0 = line.substr(0, line.find(' '));
     line = line.substr(line.find(' ') + 1);
 
@@ -88,15 +89,15 @@ Command SyntaxAnalyzer::parseCode(std::string line)
 
 void SyntaxAnalyzer::checkRegister(Command &command)
 {
-    if (command.opcode == "add" || command.opcode == "nand" ||
-        command.opcode == "lw" || command.opcode == "sw" ||
-        command.opcode == "beq" || command.opcode == "jalr")
+    if (command.opcode == ADD || command.opcode == NAND ||
+        command.opcode == LW || command.opcode == SW ||
+        command.opcode == BEQ || command.opcode == JALR)
     {
         checkRegisterArg(command.arg0);
         checkRegisterArg(command.arg1);
     }
 
-    if (command.opcode == "add" || command.opcode == "nand")
+    if (command.opcode == ADD || command.opcode == NAND)
     {
         checkRegisterArg(command.arg2);
     }
@@ -119,13 +120,13 @@ void SyntaxAnalyzer::checkRegisterArg(const std::string &registerName)
 
 void SyntaxAnalyzer::checkAddress(Command &command)
 {
-    if (command.opcode == "lw" || command.opcode == "sw" ||
-        command.opcode == "beq")
+    if (command.opcode == LW || command.opcode == SW ||
+        command.opcode == BEQ)
     {
         checkAddressArg(command.opcode);
     }
 
-    if (command.opcode == ".fill")
+    if (command.opcode == FILL)
     {
         checkAddressArg(command.opcode);
     }
@@ -162,7 +163,7 @@ void SyntaxAnalyzer::checkLabelName(const std::string &labelName)
 
     for (auto &ch: labelName)
     {
-        if (std::find(labelAlphabetName.begin(), labelAlphabetName.end(), std::string(1, ch)) == labelAlphabetName.end())
+        if (std::find(labelAlphabet.begin(), labelAlphabet.end(), std::string(1, ch)) == labelAlphabet.end())
         {
             throw std::runtime_error("Label name contains invalid character");
         }

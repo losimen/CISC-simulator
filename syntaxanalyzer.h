@@ -19,10 +19,22 @@
 typedef std::map<int, int24_t> Register;
 
 
+#define ADD "add"
+#define NAND "nand"
+#define LW "lw"
+#define SW "sw"
+#define BEQ "beq"
+#define JALR "jalr"
+#define HALT "halt"
+#define NOOP "noop"
+
+#define FILL ".fill"
+
+
 class SyntaxAnalyzer
 {
 private:
-    static const std::vector<std::string> labelAlphabetName;
+    static const std::vector<std::string> labelAlphabet;
     std::vector<std::string> labels;
 
     static void removeDuplicatedSpaces(std::string &line);
