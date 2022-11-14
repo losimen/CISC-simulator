@@ -1,0 +1,12 @@
+    lw  0   1   iter
+    lw  0   2   step
+    lw  0   3   endP
+    lw  0   4   one
+    lw  0   5   sum
+start noop
+    add 1   1   4
+    add 2   2   4
+    add 5   5   2
+    beq 1   3   end
+    beq 0   0   start
+end halt

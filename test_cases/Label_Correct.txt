@@ -1,0 +1,3 @@
+start1 lw 0 0 s
+start2 sw 0 0 s
+start3 sw 0 0 s
