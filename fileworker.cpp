@@ -45,3 +45,16 @@ FileContent FileWorker::read() const
 
     return result;
 }
+
+void FileWorker::clear() const
+{
+    std::ofstream file;
+    file.open(fileName, std::ios::trunc);
+
+    if (!file.is_open())
+    {
+        throw std::runtime_error("Error in opening file - " + fileName);
+    }
+
+    file.close();
+}
