@@ -7,7 +7,16 @@
 #include "codegenerator.h"
 
 
-int main()
+struct StateStruct
+{
+    int pc = 0;
+    std::array<int, MAX_WORDS> mem;
+    std::array<int, AMOUNT_OF_REGISTERS> registers;
+    int numMemory = 0;
+} state;
+
+
+void asol()
 {
     SyntaxAnalyzer syntaxAnalyzer;
     CodeGenerator codeGenerator;
@@ -29,31 +38,68 @@ int main()
     {
         std::cerr << e.what() << std::endl;
     }
+}
 
-//    FileWorker fileWorker("output.txt");
-//
-//    FileContent fileContent = fileWorker.read();
-//
-//    unsigned int lineCounter = 0;
-//    for (auto &line: fileContent)
-//    {
-//        int machineCode = std::stoi(line);
-//        std::bitset<24> num(machineCode);
-//
-//        unsigned int opcode = machineCode >> SHIFT_OP;
-//        unsigned int arg0 = (machineCode >> SHIFT_ARG0) & 0x7;
-//        unsigned int arg1 = (machineCode >> SHIFT_ARG1) & 0x7;
-//        unsigned int arg2 = machineCode & 0x7;
-//        unsigned int addressField = machineCode & 0xFFF;
-//
-//        std::cout << num << "| "
-//                  << "line: " << ++lineCounter
-//                  << "| OP: " << opcode
-//                  << "| ARG0: " << arg0
-//                  << "| ARG1: " << arg1
-//                  << "| ARg2: " << arg2
-//                  << "| Adr: " << addressField << std::endl;
-//    }
+
+void ssol()
+{
+    using namespace Info;
+    FileWorker fileWorker("output.txt");
+
+    FileContent fileContent = fileWorker.read();
+
+    unsigned int lineCounter = 0;
+    for (auto &line: fileContent)
+    {
+        // TODO: check whether only integers
+        if (state.numMemory >= MAX_WORDS)
+        {
+            throw std::runtime_error("Exceed memory size");
+        }
+
+        state.mem[state.numMemory] = std::stoi(line);
+        state.numMemory++;
+    }
+
+
+    for (unsigned int it = 0; it < state.numMemory; it++) {
+        std::bitset<24> num(state.mem[it]);
+
+        unsigned int opcode = state.mem[it] >> SHIFT_OP;
+        unsigned int arg0 = (state.mem[it] >> SHIFT_ARG0) & 0x7;
+        unsigned int arg1 = (state.mem[it] >> SHIFT_ARG1) & 0x7;
+        unsigned int arg2 = state.mem[it] & 0x7;
+        unsigned int addressField = state.mem[it] & 0xFFF;
+
+        std::cout << num << "| "
+                  << "addr: " << lineCounter++
+                  << "| OP: " << opcode
+                  << "| ARG0: " << arg0
+                  << "| ARG1: " << arg1
+                  << "| ARg2: " << arg2
+                  << "| Adr: " << addressField
+                  << " [" << state.mem[it] << "] "
+                  << std::endl;
+
+        if (opcodes[LW] == opcode)
+        {
+            state.registers[arg1] = state.mem[addressField];
+        }
+
+    }
+
+    int regc = 0;
+    for (auto reg: state.registers)
+        std::cout << regc++ << " " << reg << std::endl;
+
+}
+
+
+
+int main()
+{
+    // asol();
+    ssol();
 
     return 0;
 }

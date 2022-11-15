@@ -15,7 +15,7 @@
 #define AMOUNT_OF_REGISTERS 8
 #define MAX_LABEL_LENGTH 7
 #define MAX_LABELS_AMOUNT 100
-#define MAX_ADDRESS_FIELD
+#define MAX_WORDS 4096
 
 #define ADD "add"
 #define NAND "nand"
@@ -32,8 +32,6 @@
 #define SHIFT_ARG1 15
 
 
-typedef std::map<int, int24_t> Register;
-
 namespace Info
 {
     static std::map<std::string, int> opcodes {{ADD, 0},
@@ -44,8 +42,6 @@ namespace Info
                                                {JALR, 5},
                                                {HALT, 6},
                                                {NOOP, 7}};
-
-    static std::array<Register, AMOUNT_OF_REGISTERS> registers;
 }
 
 
