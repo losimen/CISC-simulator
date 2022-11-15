@@ -11,7 +11,7 @@ FileWorker::FileWorker(std::string fileName): fileName(std::move(fileName))
 
 }
 
-void FileWorker::write(const std::string &text)
+void FileWorker::write(const std::string &text) const
 {
     std::ofstream file;
 
@@ -26,7 +26,7 @@ void FileWorker::write(const std::string &text)
 }
 
 
-FileContent FileWorker::read()
+FileContent FileWorker::read() const
 {
     FileContent result;
 

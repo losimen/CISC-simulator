@@ -19,8 +19,8 @@ private:
 public:
     explicit FileWorker(std::string fileName);
 
-    void write(const std::string &text);
-    FileContent read();
+    void write(const std::string &text) const;
+    FileContent read() const;
 };
 
 
