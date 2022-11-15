@@ -14,10 +14,10 @@
 class CodeGenerator
 {
 private:
-    unsigned int _getCode(const Command &command, const Commands &commands);
+    static unsigned int _getCode(const Command &command, const Commands &commands);
 
 public:
-    void generate(const FileWorker &fileWorker, const Commands &commands);
+    static void generate(const FileWorker &fileWorker, const Commands &commands);
 };
 
 
