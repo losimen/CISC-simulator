@@ -11,7 +11,8 @@
 #include "syntaxerror.h"
 
 
-class Commands {
+class Commands
+{
 private:
     std::vector<Command> commands;
 

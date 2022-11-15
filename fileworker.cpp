@@ -14,13 +14,13 @@ FileWorker::FileWorker(std::string fileName): fileName(std::move(fileName))
 void FileWorker::write(const std::string &text) const
 {
     std::ofstream file;
+    file.open(fileName, std::ios::app);
 
     if (!file.is_open())
     {
         throw std::runtime_error("Error in opening file - " + fileName);
     }
 
-    file.open("example.txt", std::ios::trunc);
     file << text;
     file.close();
 }

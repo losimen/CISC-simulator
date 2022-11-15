@@ -24,7 +24,7 @@ add_executable(
 add_executable(
         KursovaAK
         main.cpp
-        fileworker.cpp fileworker.h syntaxanalyzer.cpp syntaxanalyzer.h int24_t.cpp int24_t.h info.h commands.cpp commands.h)
+        fileworker.cpp fileworker.h syntaxanalyzer.cpp syntaxanalyzer.h int24_t.cpp int24_t.h info.h commands.cpp commands.h codegenerator.cpp codegenerator.h)
 
 target_link_libraries(
         hello_test

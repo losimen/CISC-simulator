@@ -23,6 +23,9 @@ Commands SyntaxAnalyzer::analyzeCode(std::vector<std::string> fileContent)
 
     for (auto &line : fileContent)
     {
+        if (line.empty())
+            continue;
+
         command.clear();
         command.address = commands.size();
 
@@ -128,7 +131,10 @@ void SyntaxAnalyzer::checkAddress()
 
     if (command.opcode == FILL)
     {
-        checkLabelName(command.arg1);
+        // MAX 12 bit number - 2048
+
+        if (std::stoi(command.arg0) >= 2048)
+            throw SyntaxError("To big value!");
     }
 }
 
@@ -137,7 +143,8 @@ void SyntaxAnalyzer::checkOpcode() const
 {
     if (opcodes.find(command.opcode) == opcodes.end())
     {
-        throw SyntaxError(command.address + 1, "Unknown opcode - " + command.opcode);
+        if ( !(command.opcode == FILL) )
+            throw SyntaxError(command.address + 1, "Unknown opcode - " + command.opcode);
     }
 }
 

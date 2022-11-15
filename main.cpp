@@ -2,18 +2,18 @@
 
 #include "fileworker.h"
 #include "syntaxanalyzer.h"
-
-#include <bitset>
-
-#define SHIFT_OP 21
-#define SHIFT_ARG0 18
-#define SHIFT_ARG1 15
+#include "codegenerator.h"
 
 
-int main() {
+int main()
+{
     SyntaxAnalyzer syntaxAnalyzer;
-    FileWorker fileWorker("example.txt");
-    FileContent fileContent = fileWorker.read();
+    CodeGenerator codeGenerator;
+
+    FileWorker fileWorkerIn("example.txt");
+    FileWorker fileWorkerOut("output.txt");
+
+    FileContent fileContent = fileWorkerIn.read();
 
     Commands commands;
     std::vector<std::string> labels;
@@ -21,6 +21,7 @@ int main() {
     try
     {
         commands = syntaxAnalyzer.analyzeCode(fileContent);
+        codeGenerator.generate(fileWorkerOut, commands);
     }
     catch (std::exception &e)
     {
