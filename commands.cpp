@@ -33,3 +33,8 @@ unsigned int Commands::size() const
 {
     return commands.size();
 }
+
+Command Commands::operator[](unsigned int index) const
+{
+    return commands[index];
+}

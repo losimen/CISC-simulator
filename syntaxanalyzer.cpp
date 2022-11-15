@@ -3,7 +3,6 @@
 //
 
 #include "syntaxanalyzer.h"
-#include "info.h"
 
 using namespace Info;
 
@@ -79,12 +78,12 @@ void SyntaxAnalyzer::parseCode(std::string line)
 
     command.arg2 = line.substr(0, line.find(' '));
 
-    std::cout << "LABEL " << command.label << std::endl;
-    std::cout << "OPCODE " << command.opcode << std::endl;
-    std::cout << "ARG0 " << command.arg0 << std::endl;
-    std::cout << "ARG1 " << command.arg1 << std::endl;
-    std::cout << "ARG2 " << command.arg2 << std::endl;
-    std::cout << std::endl;
+//    std::cout << "LABEL " << command.label << std::endl;
+//    std::cout << "OPCODE " << command.opcode << std::endl;
+//    std::cout << "ARG0 " << command.arg0 << std::endl;
+//    std::cout << "ARG1 " << command.arg1 << std::endl;
+//    std::cout << "ARG2 " << command.arg2 << std::endl;
+//    std::cout << std::endl;
 }
 
 

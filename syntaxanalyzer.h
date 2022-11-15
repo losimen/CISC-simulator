@@ -17,6 +17,8 @@
 #include "int24_t.h"
 #include "command.h"
 #include "commands.h"
+#include "info.h"
+
 
 typedef std::map<int, int24_t> Register;
 

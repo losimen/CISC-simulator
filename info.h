@@ -8,6 +8,8 @@
 #include <vector>
 #include <map>
 #include <string>
+#include <array>
+
 
 #define AMOUNT_OF_REGISTERS 8
 #define MAX_LABEL_LENGTH 7
@@ -21,6 +23,7 @@
 #define JALR "jalr"
 #define HALT "halt"
 #define NOOP "noop"
+#include "int24_t.h"
 
 #define FILL ".fill"
 
@@ -29,19 +32,16 @@ typedef std::map<int, int24_t> Register;
 
 namespace Info
 {
-    std::map<std::string, int> opcodes {{ADD, 0},
-                                        {NAND, 1},
-                                        {LW, 2},
-                                        {SW, 3},
-                                        {BEQ, 4},
-                                        {JALR, 5},
-                                        {HALT, 6},
-                                        {NOOP, 7}
-                                        };
+    static std::map<std::string, int> opcodes {{ADD, 0},
+                                               {NAND, 1},
+                                               {LW, 2},
+                                               {SW, 3},
+                                               {BEQ, 4},
+                                               {JALR, 5},
+                                               {HALT, 6},
+                                               {NOOP, 7}};
 
-    #define FILL ".fill"
-
-    std::array<Register, AMOUNT_OF_REGISTERS> registers;
+    static std::array<Register, AMOUNT_OF_REGISTERS> registers;
 }
 
 

@@ -19,7 +19,7 @@ enable_testing()
 add_executable(
         hello_test
         assember_test.cpp fileworker.cpp fileworker.h syntaxanalyzer.cpp syntaxanalyzer.h int24_t.cpp int24_t.h info.h
-        commands.cpp commands.h)
+        commands.cpp commands.h codegenerator.cpp codegenerator.h)
 
 add_executable(
         KursovaAK

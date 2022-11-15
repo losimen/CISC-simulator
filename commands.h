@@ -21,6 +21,7 @@ public:
     unsigned int size() const;
 
     unsigned int getLabelAddress(const std::string &label) const;
+    Command operator[](unsigned int index) const;
 
 };
 
