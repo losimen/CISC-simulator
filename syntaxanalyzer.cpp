@@ -25,7 +25,7 @@ Commands SyntaxAnalyzer::analyzeCode(std::vector<std::string> fileContent)
     for (auto &line : fileContent)
     {
         command.clear();
-        command.line = commands.size() + 1;
+        command.address = commands.size();
 
         removeDuplicatedSpaces(line);
         parseCode(line);
@@ -105,16 +105,16 @@ void SyntaxAnalyzer::checkRegister()
 }
 
 
-void SyntaxAnalyzer::checkRegisterArg(const std::string &registerName)
+void SyntaxAnalyzer::checkRegisterArg(const std::string &registerName) const
 {
     if (!std::isdigit(registerName[0]))
     {
-        throw SyntaxError(command.line ,"Register name must be digit number");
+        throw SyntaxError(command.address + 1, "Register name must be digit number");
     }
 
     if (std::stoi(registerName) < 0 || std::stoi(registerName) > 7)
     {
-        throw SyntaxError(command.line ,"Register number is out of range");
+        throw SyntaxError(command.address + 1, "Register number is out of range");
     }
 }
 
@@ -134,32 +134,32 @@ void SyntaxAnalyzer::checkAddress()
 }
 
 
-void SyntaxAnalyzer::checkOpcode()
+void SyntaxAnalyzer::checkOpcode() const
 {
-    if (std::find(opcodes.begin(), opcodes.end(), command.opcode) == opcodes.end())
+    if (opcodes.find(command.opcode) == opcodes.end())
     {
-        throw SyntaxError(command.line ,"Unknown opcode - " + command.opcode);
+        throw SyntaxError(command.address + 1, "Unknown opcode - " + command.opcode);
     }
 }
 
 
-void SyntaxAnalyzer::checkLabelName(const std::string &labelName)
+void SyntaxAnalyzer::checkLabelName(const std::string &labelName) const
 {
     if (std::isdigit(labelName[0]))
     {
-        throw SyntaxError(command.line ,"Label name must not start with digit");
+        throw SyntaxError(command.address + 1, "Label name must not start with digit");
     }
 
     if (labelName.length() > MAX_LABEL_LENGTH)
     {
-        throw SyntaxError(command.line ,"Label name is too long");
+        throw SyntaxError(command.address + 1, "Label name is too long");
     }
 
     for (auto &ch: labelName)
     {
         if (std::find(labelAlphabet.begin(), labelAlphabet.end(), std::string(1, ch)) == labelAlphabet.end())
         {
-            throw SyntaxError(command.line ,"Label name contains invalid character");
+            throw SyntaxError(command.address + 1, "Label name contains invalid character");
         }
     }
 }
@@ -171,12 +171,18 @@ void SyntaxAnalyzer::checkLabel()
 
     if (std::find(labels.begin(), labels.end(), command.label) != labels.end())
     {
-        throw SyntaxError(command.line ,"Label already exists");
+        throw SyntaxError(command.address + 1, "Label already exists");
     }
     labels.push_back(command.label);
 
     if (labels.size() > MAX_LABELS_AMOUNT)
     {
-        throw SyntaxError(command.line ,"Too many labels");
+        throw SyntaxError(command.address + 1, "Too many labels");
     }
+}
+
+
+std::vector<std::string> SyntaxAnalyzer::getLabels() const
+{
+    return labels;
 }

@@ -9,7 +9,7 @@
 
 struct Command
 {
-    unsigned int line;
+    unsigned int address;
 
     std::string label;
     std::string opcode;
@@ -19,7 +19,7 @@ struct Command
 
     Command()
     {
-        line = 0;
+        address = 0;
         label = "";
         opcode = "";
         arg0 = "";
@@ -29,7 +29,7 @@ struct Command
 
     void clear()
     {
-        line = 0;
+        address = 0;
 
         label.clear();
         opcode.clear();

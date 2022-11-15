@@ -16,22 +16,9 @@
 #include "syntaxerror.h"
 #include "int24_t.h"
 #include "command.h"
+#include "commands.h"
 
 typedef std::map<int, int24_t> Register;
-
-
-#define ADD "add"
-#define NAND "nand"
-#define LW "lw"
-#define SW "sw"
-#define BEQ "beq"
-#define JALR "jalr"
-#define HALT "halt"
-#define NOOP "noop"
-
-#define FILL ".fill"
-
-typedef std::vector<Command> Commands;
 
 
 class SyntaxAnalyzer
@@ -42,20 +29,21 @@ private:
     static const std::vector<std::string> labelAlphabet;
     std::vector<std::string> labels;
 
-    void removeDuplicatedSpaces(std::string &line);
-    void checkRegisterArg(const std::string &registerName);
-    void checkLabelName(const std::string &labelName);
+    static void removeDuplicatedSpaces(std::string &line);
+    void checkRegisterArg(const std::string &registerName) const;
+    void checkLabelName(const std::string &labelName) const;
 
     void checkRegister();
     void checkLabel();
     void checkAddress();
-    void checkOpcode();
+    void checkOpcode() const;
 
     void parseCode(std::string line);
 public:
     SyntaxAnalyzer();
 
     Commands analyzeCode(std::vector<std::string> fileContent);
+    std::vector<std::string> getLabels() const;
 };
 
 

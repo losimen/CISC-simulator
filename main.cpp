@@ -4,15 +4,23 @@
 #include "syntaxanalyzer.h"
 
 int main() {
-    FileWorker fileWorker("test_cases/Label_Correct.txt");
+    FileWorker fileWorker("example.txt");
     FileContent fileContent = fileWorker.read();
-    std::vector<Command> commands;
+
+    Commands commands;
+    std::vector<std::string> labels;
 
     SyntaxAnalyzer syntaxAnalyzer;
 
     try
     {
         commands = syntaxAnalyzer.analyzeCode(fileContent);
+        labels = syntaxAnalyzer.getLabels();
+
+        for (auto &label: labels)
+        {
+            std::cout << label << std::endl;
+        }
     }
     catch (std::exception &e)
     {

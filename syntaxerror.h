@@ -7,6 +7,7 @@
 
 #include <exception>
 #include <string>
+#include <utility>
 
 
 class SyntaxError: public std::exception
@@ -15,16 +16,20 @@ private:
     std::string message;
 
 public:
-    const char *what () const throw ()
+    const char *what () const noexcept override
     {
         return message.c_str();
     }
 
-    SyntaxError(unsigned int line, std::string message)
+    SyntaxError(unsigned int line, const std::string& message)
     {
         this->message = "ERROR in line: " + std::to_string(line) + "| " + message;
     }
 
+    explicit SyntaxError(const std::string &message)
+    {
+        this->message = message;
+    }
 };
 
 
