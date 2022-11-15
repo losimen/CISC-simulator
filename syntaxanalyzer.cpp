@@ -21,8 +21,10 @@ Commands SyntaxAnalyzer::analyzeCode(std::vector<std::string> fileContent)
 {
     Commands commands;
 
+    unsigned int lineCounter = 0;
     for (auto &line : fileContent)
     {
+        lineCounter++;
         if (line.empty())
             continue;
 
@@ -132,7 +134,6 @@ void SyntaxAnalyzer::checkAddress()
     if (command.opcode == FILL)
     {
         // MAX 12 bit number - 2048
-
         if (std::stoi(command.arg0) >= 2048)
             throw SyntaxError("To big value!");
     }

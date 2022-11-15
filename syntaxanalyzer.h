@@ -32,6 +32,7 @@ private:
     std::vector<std::string> labels;
 
     static void removeDuplicatedSpaces(std::string &line);
+
     void checkRegisterArg(const std::string &registerName) const;
     void checkLabelName(const std::string &labelName) const;
 
@@ -39,6 +40,7 @@ private:
     void checkLabel();
     void checkAddress();
     void checkOpcode() const;
+
 
     void parseCode(std::string line);
 public:

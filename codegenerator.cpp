@@ -3,6 +3,7 @@
 //
 
 #include "codegenerator.h"
+#include <iostream>
 
 using namespace std;
 using namespace Info;
@@ -41,6 +42,7 @@ unsigned int CodeGenerator::_getCode(const Command &command, const Commands &com
     else if (command.opcode == LW || command.opcode == SW || command.opcode == BEQ)
     {
         unsigned int addressField = commands.getLabelAddress(command.arg2);
+        std::cout << command.arg2 << " " << addressField << std::endl;
 
         machineCode = (opcodes[command.opcode] << SHIFT_OP) |
                       (stoi(command.arg0) << SHIFT_ARG0) |
