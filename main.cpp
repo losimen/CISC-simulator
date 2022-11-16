@@ -1,10 +1,12 @@
 #include <iostream>
 #include <bitset>
+#include <stack>
 
 #include "fileworker.h"
 #include "syntaxanalyzer.h"
 #include "codegenerator.h"
 #include "simulator.h"
+
 
 
 void asol()
@@ -48,6 +50,10 @@ int main()
 {
     asol();
     ssol();
+
+// TODO: change to uint32_t
+
+
 
     return 0;
 }

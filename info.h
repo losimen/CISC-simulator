@@ -26,12 +26,26 @@
 #define HALT "halt"
 #define NOOP "noop"
 #define FILL ".fill"
+#define DEC "dec"
+#define IDIV "idiv"
+#define XADD "xadd"
+#define SHL "shl"
+#define OR "or"
+#define NEG "neg"
+#define JMA "jma"
+#define JMNE "jmne"
+#define ADC "adc"
+#define JGE "jge"
+#define PUSH "push"
+#define POP "pop"
 
-#define SHIFT_OP 21
-#define SHIFT_ARG0 18
+#define SHIFT_OP 18
+#define SHIFT_ARG0 12
 #define SHIFT_ARG1 15
 
-
+//    18   15  12           0
+//     |   |   |            |
+// 00000 000 000 000000000000
 namespace Info
 {
     static std::map<std::string, int> opcodes {{ADD, 0},
