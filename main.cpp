@@ -1,6 +1,7 @@
 #include <iostream>
 #include <bitset>
-
+#include <chrono>
+#include <thread>
 
 #include "fileworker.h"
 #include "syntaxanalyzer.h"
@@ -61,36 +62,39 @@ void ssol()
         state.numMemory++;
     }
 
-    for (unsigned int it = 0; it < state.numMemory; it++)
+    while (true)
     {
-        std::bitset<24> num(state.mem[it]);
+        std::bitset<24> num(state.mem[state.pc]);
 
-        unsigned int opcode = state.mem[it] >> SHIFT_OP;
-        unsigned int arg0 = (state.mem[it] >> SHIFT_ARG0) & 0x7;
-        unsigned int arg1 = (state.mem[it] >> SHIFT_ARG1) & 0x7;
-        unsigned int arg2 = state.mem[it] & 0x7;
-        unsigned int addressField = state.mem[it] & 0xFFF;
+        unsigned int opcode = state.mem[state.pc] >> SHIFT_OP;
+        unsigned int arg0 = (state.mem[state.pc] >> SHIFT_ARG0) & 0x7;
+        unsigned int arg1 = (state.mem[state.pc] >> SHIFT_ARG1) & 0x7;
+        unsigned int arg2 = state.mem[state.pc] & 0x7;
+        unsigned int addressField = state.mem[state.pc] & 0xFFF;
 
-//        std::cout << num << "| "
-//                  << "addr: " << lineCounter++
-//                  << "| OP: " << opcode
-//                  << "| ARG0: " << arg0
-//                  << "| ARG1: " << arg1
-//                  << "| ARG2: " << arg2
-//                  << "| Adr: " << addressField
-//                  << " [" << state.mem[it] << "] "
-//                  << std::endl;
+        std::cout << num << "| "
+                  << "addr: " << state.pc
+                  << "| OP: " << opcode
+                  << "| ARG0: " << arg0
+                  << "| ARG1: " << arg1
+                  << "| ARG2: " << arg2
+                  << "| Adr: " << addressField
+                  << " [" << state.mem[state.pc] << "] "
+                  << std::endl;
 
         if (opcodes[ADD] == opcode)
         {
+            std::cout << "ADD " << arg0 << " " << arg1 << " " << arg2 << std::endl;
             state.registers[arg2] = state.registers[arg0] + state.registers[arg1];
         }
         else if (opcodes[NAND] == opcode)
         {
+            std::cout << "NAND " << arg0 << " " << arg1 << " " << arg2 << std::endl;
             state.registers[arg2] = ~(state.registers[arg0] & state.registers[arg1]);
         }
         else if (opcodes[LW] == opcode)
         {
+            std::cout << "LW " << arg0 << " " << arg1 << " " << arg2 << std::endl;
             if (state.registers[arg0] + addressField >= MAX_WORDS)
             {
                 throw std::runtime_error("Exceed memory size");
@@ -98,8 +102,17 @@ void ssol()
 
             state.registers[arg1] = state.mem[state.registers[arg0] + addressField];
         }
+        else if (opcodes[BEQ] == opcode)
+        {
+            std::cout << "BEQ " << arg0 << " " << arg1 << " " << addressField << std::endl;
+            if (state.registers[arg0] == state.registers[arg1])
+            {
+                state.pc = addressField-1;
+            }
+        }
         else if (opcodes[SW] == opcode)
         {
+            std::cout << "SW " << arg0 << " " << arg1 << " " << addressField << std::endl;
             if (state.registers[arg0] + addressField >= MAX_WORDS)
             {
                 throw std::runtime_error("Exceed memory size");
@@ -109,9 +122,21 @@ void ssol()
         }
         else if (opcodes[HALT] == opcode)
         {
+            std::cout << "HALT" << std::endl;
             break;
         }
+        else if (opcode[NOOP] == opcode)
+        {
+            std::cout << "NOOP" << std::endl;
+        }
+        else
+        {
+            throw std::runtime_error("Unknown opcode at address " + std::to_string(lineCounter));
+        }
 
+        state.pc++;
+        state.registers[0] = 0;
+        std::this_thread::sleep_for(std::chrono::seconds(1));
     }
 
     unsigned int regc = 0;
@@ -124,7 +149,7 @@ void ssol()
 
 int main()
 {
-    //asol();
+    asol();
     ssol();
 
     return 0;
