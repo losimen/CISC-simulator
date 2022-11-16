@@ -20,9 +20,6 @@
 #include "info.h"
 
 
-typedef std::map<int, int24_t> Register;
-
-
 class SyntaxAnalyzer
 {
 private:
@@ -40,7 +37,6 @@ private:
     void checkLabel();
     void checkAddress();
     void checkOpcode() const;
-
 
     void parseCode(std::string line);
 public:

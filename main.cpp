@@ -61,8 +61,8 @@ void ssol()
         state.numMemory++;
     }
 
-
-    for (unsigned int it = 0; it < state.numMemory; it++) {
+    for (unsigned int it = 0; it < state.numMemory; it++)
+    {
         std::bitset<24> num(state.mem[it]);
 
         unsigned int opcode = state.mem[it] >> SHIFT_OP;
@@ -83,13 +83,29 @@ void ssol()
 
         if (opcodes[ADD] == opcode)
         {
-            std::cout << "ADD: " << arg2 << " = " << arg0 << " + " << arg1 << std::endl;
-            std::cout << "ADD: " << state.registers[arg2] << " = " << state.registers[arg0] << " + " << state.registers[arg1] << std::endl << std::endl;
             state.registers[arg2] = state.registers[arg0] + state.registers[arg1];
+        }
+        else if (opcodes[NAND] == opcode)
+        {
+            state.registers[arg2] = ~(state.registers[arg0] & state.registers[arg1]);
         }
         else if (opcodes[LW] == opcode)
         {
+            if (state.registers[arg0] + addressField >= MAX_WORDS)
+            {
+                throw std::runtime_error("Exceed memory size");
+            }
+
             state.registers[arg1] = state.mem[state.registers[arg0] + addressField];
+        }
+        else if (opcodes[SW] == opcode)
+        {
+            if (state.registers[arg0] + addressField >= MAX_WORDS)
+            {
+                throw std::runtime_error("Exceed memory size");
+            }
+
+            state.mem[state.registers[arg0] + addressField] = state.registers[arg1];
         }
         else if (opcodes[HALT] == opcode)
         {
@@ -98,7 +114,7 @@ void ssol()
 
     }
 
-    int regc = 0;
+    unsigned int regc = 0;
     for (auto reg: state.registers)
         std::cout << regc++ << " " << reg << std::endl;
 
