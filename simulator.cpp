@@ -31,16 +31,13 @@ void Simulator::run()
 {
     while (true)
     {
-        std::bitset<24> num(state.mem[state.pc.to_uint()].to_uint());
+        opcode = state.mem[state.pc.to_uint()].to_uint() >> SHIFT_OP;
+        arg0 = (state.mem[state.pc.to_uint()].to_uint() >> SHIFT_ARG0) & 0x7;
+        arg1 = (state.mem[state.pc.to_uint()].to_uint() >> SHIFT_ARG1) & 0x7;
+        arg2 = state.mem[state.pc.to_uint()].to_uint() & 0x7;
+        addressField = state.mem[state.pc.to_uint()].to_uint() & 0xFFF;
 
-        unsigned int opcode = state.mem[state.pc.to_uint()].to_uint() >> SHIFT_OP;
-        unsigned int arg0 = (state.mem[state.pc.to_uint()].to_uint() >> SHIFT_ARG0) & 0x7;
-        unsigned int arg1 = (state.mem[state.pc.to_uint()].to_uint() >> SHIFT_ARG1) & 0x7;
-        unsigned int arg2 = state.mem[state.pc.to_uint()].to_uint() & 0x7;
-        unsigned int addressField = state.mem[state.pc.to_uint()].to_uint() & 0xFFF;
-
-        std::cout << num << "| "
-                  << "addr: " << state.pc.to_uint()
+        std::cout << "addr: " << state.pc.to_uint()
                   << "| OP: " << opcode
                   << "| ARG0: " << arg0
                   << "| ARG1: " << arg1
@@ -51,11 +48,11 @@ void Simulator::run()
 
         if (opcodes[ADD] == opcode)
         {
-            doRInstruction(arg0, arg1, arg2, [](unsigned int a, unsigned int b) { return a + b; });
+            doRInstruction([](unsigned int a, unsigned int b) { return a + b; });
         }
         else if (opcodes[NAND] == opcode)
         {
-            doRInstruction(arg0, arg1, arg2, [](unsigned int a, unsigned int b) { return ~(a & b); });
+            doRInstruction([](unsigned int a, unsigned int b) { return ~(a & b); });
         }
         else if (opcodes[LW] == opcode)
         {
@@ -130,19 +127,21 @@ void Simulator::run()
             throw std::runtime_error("Unknown opcode at address " + std::to_string(state.pc.to_uint()));
         }
 
+        unsigned int regc = 0;
+        for (auto reg: state.registers)
+            std::cout << "register[" << regc++ << "] " << reg.to_int() << std::endl;
+        std::cout << std::endl;
+
         state.pc = state.pc.to_uint() + 1;
         state.registers[0] = 0;
         std::this_thread::sleep_for(std::chrono::milliseconds(200));
     }
 
 
-    unsigned int regc = 0;
-    for (auto reg: state.registers)
-        std::cout << regc++ << " " << reg.to_int() << std::endl;
+
 }
 
-void Simulator::doRInstruction(unsigned int arg0, unsigned int arg1, unsigned int arg2,
-                               std::function<unsigned int(unsigned int, unsigned int)> func)
+void Simulator::doRInstruction(std::function<unsigned int(unsigned int, unsigned int)> func)
 {
     if (arg0 == 0 && arg1 == 0 && arg2 == 0)
     {

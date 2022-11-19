@@ -17,6 +17,12 @@
 
 class Simulator {
 private:
+    unsigned int opcode;
+    unsigned int arg0;
+    unsigned int arg1;
+    unsigned int arg2;
+    unsigned int addressField;
+
     struct StateStruct
     {
         std::stack<int24_t> stack;
@@ -29,8 +35,7 @@ private:
         void isStackEmpty() const;
     } state;
 
-    void doRInstruction(unsigned int arg0, unsigned int arg1, unsigned int arg2,
-                        std::function<unsigned int(unsigned int, unsigned int)> func);
+    void doRInstruction(std::function<unsigned int(unsigned int, unsigned int)> func);
 
 public:
     Simulator() = delete;
