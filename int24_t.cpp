@@ -13,19 +13,24 @@ int24_t::int24_t()
 
 int24_t::int24_t(int value)
 {
-    if (value > INT24_MAX)
-        throw std::overflow_error("Overflow");
-
     _value = value;
+
+    if (value > INT24_MAX)
+        isOverflow = true;
+    else
+        isOverflow = false;
 }
 
 
 int24_t &int24_t::operator=(int value)
 {
-    if (value > INT24_MAX)
-        throw std::overflow_error("Overflow");
-
     _value = value;
+
+    if (value > INT24_MAX)
+        isOverflow = true;
+    else
+        isOverflow = false;
+
     return *this;
 }
 
@@ -43,4 +48,9 @@ int int24_t::to_int() const
 int32_t int24_t::to_uint() const
 {
     return _value;
+}
+
+bool int24_t::isOverflow1() const
+{
+    return isOverflow;
 }

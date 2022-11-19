@@ -50,6 +50,7 @@ void Simulator::run()
         if (opcodes[ADD] == opcode)
         {
             doRInstruction([](int a, int b) { return a + b; });
+            state.CF = true;
         }
         else if (opcodes[NAND] == opcode)
         {
@@ -186,6 +187,18 @@ void Simulator::run()
                 state.pc = addressField-1;
             }
         }
+        else if (opcodes[ADC] == opcode)
+        {
+            try
+            {
+                doRInstruction([this](int a, int b) { return a + b + this->state.CF; });
+                state.CF = false;
+            }
+            catch (std::overflow_error &e)
+            {
+                state.CF = true;
+            }
+        }
         else
         {
             throw std::runtime_error("Unknown opcode at address " + std::to_string(state.pc.to_uint()));
@@ -194,6 +207,10 @@ void Simulator::run()
         unsigned int regc = 0;
         for (auto reg: state.registers)
             std::cout << "register[" << regc++ << "] " << reg.to_int() << std::endl;
+
+        std::cout << "CF: " << state.CF << std::endl;
+        std::cout << "ZF: " << state.ZF << std::endl;
+        std::cout << "SF: " << state.SF << std::endl;
         std::cout << std::endl;
 
         state.pc = state.pc.to_uint() + 1;
@@ -219,10 +236,19 @@ void Simulator::doRInstruction(std::function<unsigned int(int, int)> func)
         state.stack.pop();
 
         state.stack.push(func(state.registers[arg0].to_int(), state.registers[arg1].to_int()));
+
+        if (state.stack.top().isOverflow1())
+        {
+            state.CF = true;
+        }
     }
     else
     {
         state.registers[arg2] = func(state.registers[arg0].to_int(), state.registers[arg1].to_int());
+        if (state.registers[arg2].isOverflow1())
+        {
+            state.CF = true;
+        }
     }
 }
 

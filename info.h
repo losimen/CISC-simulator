@@ -41,6 +41,10 @@
 #define JGE "jge"
 #define PUSH "push"
 #define POP "pop"
+#define ADC "adc"
+#define JL "jl"
+#define JE "je"
+
 
 #define SHIFT_OP 18
 #define SHIFT_ARG0 12
@@ -79,7 +83,9 @@ namespace Info
                                                {ADC, 16},
                                                {JGE, 17},
                                                {PUSH, 18},
-                                               {POP, 19}};
+                                               {POP, 19},
+                                               {JL, 21},
+                                               {JE, 22}};
 }
 
 

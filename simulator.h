@@ -32,6 +32,10 @@ private:
         int24_t pc = 0;
         int24_t numMemory = 0;
 
+        bool CF = false;
+        bool ZF = false;
+        bool SF = false;
+
         void isStackEmpty() const;
     } state;
 

@@ -130,12 +130,6 @@ void SyntaxAnalyzer::checkAddress()
         checkLabelName(command.arg2);
     }
 
-    if (command.opcode == FILL)
-    {
-        // MAX 12 bit number - 2048
-        if (std::stoi(command.arg0) >= 2048)
-            throw MyError("To big value!");
-    }
 }
 
 
