@@ -49,15 +49,14 @@ void Simulator::run()
 
         if (opcodes[ADD] == opcode)
         {
-            doRInstruction([](unsigned int a, unsigned int b) { return a + b; });
+            doRInstruction([](int a, int b) { return a + b; });
         }
         else if (opcodes[NAND] == opcode)
         {
-            doRInstruction([](unsigned int a, unsigned int b) { return ~(a & b); });
+            doRInstruction([](int a, int b) { return ~(a & b); });
         }
         else if (opcodes[LW] == opcode)
         {
-//            std::cout << "LW " << arg0 << " " << arg1 << " " << arg2 << std::endl;
             if (state.registers[arg0].to_int() + addressField >= MAX_WORDS)
             {
                 throw std::runtime_error("Exceed memory size");
@@ -67,7 +66,6 @@ void Simulator::run()
         }
         else if (opcodes[SW] == opcode)
         {
-//            std::cout << "SW " << arg0 << " " << arg1 << " " << addressField << std::endl;
             if (state.registers[arg0].to_uint() + addressField >= MAX_WORDS)
             {
                 throw std::runtime_error("Exceed memory size");
@@ -77,7 +75,6 @@ void Simulator::run()
         }
         else if (opcodes[BEQ] == opcode)
         {
-//            std::cout << "BEQ " << arg0 << " " << arg1 << " " << addressField << std::endl;
             if (state.registers[arg0].to_uint() == state.registers[arg1].to_uint())
             {
                 state.pc = addressField-1;
@@ -97,12 +94,11 @@ void Simulator::run()
         }
         else if (opcodes[HALT] == opcode)
         {
-            // std::cout << "HALT" << std::endl;
             break;
         }
         else if (opcodes[NOOP] == opcode)
         {
-            // std::cout << "NOOP" << std::endl;
+            // NOTHING
         }
         else if (opcodes[DEC] == opcode)
         {
@@ -115,11 +111,19 @@ void Simulator::run()
                 arg2 = arg0;
             }
 
-            doRInstruction([](unsigned int a, unsigned int) { return a - 1; });
+            doRInstruction([](int a, int) { return a - 1; });
         }
         else if (opcodes[IDIV] == opcode)
         {
             doRInstruction([](int a, int b) { return a / b; });
+        }
+        else if (opcodes[XADD] == opcode)
+        {
+            doRInstruction([](int a, int b) { return a + b; });
+
+            int24_t temp = state.registers[arg0];
+            state.registers[arg0] = state.registers[arg1];
+            state.registers[arg1] = temp;
         }
         else if (opcodes[PUSH] == opcode)
         {
@@ -128,7 +132,7 @@ void Simulator::run()
                 throw MyError(state.pc.to_uint(), "Exceed stack size");
             }
 
-            state.stack.push(state.registers[arg0]);
+            state.stack.push(arg0);
         }
         else if (opcodes[POP] == opcode)
         {
@@ -172,7 +176,7 @@ void Simulator::doRInstruction(std::function<unsigned int(int, int)> func)
         arg1 = state.stack.top().to_int();
         state.stack.pop();
 
-        state.stack.push(func(arg0, arg1));
+        state.stack.push(func(state.registers[arg0].to_int(), state.registers[arg1].to_int()));
     }
     else
     {
