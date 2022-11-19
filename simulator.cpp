@@ -172,6 +172,20 @@ void Simulator::run()
             state.registers[arg0] = state.stack.top();
             state.stack.pop();
         }
+        else if (opcodes[JMA] == opcode)
+        {
+            if (state.registers[arg0].to_uint() > state.registers[arg1].to_uint())
+            {
+                state.pc = addressField-1;
+            }
+        }
+        else if (opcodes[JMNE] == opcode)
+        {
+            if (state.registers[arg0].to_uint() != state.registers[arg1].to_uint())
+            {
+                state.pc = addressField-1;
+            }
+        }
         else
         {
             throw std::runtime_error("Unknown opcode at address " + std::to_string(state.pc.to_uint()));

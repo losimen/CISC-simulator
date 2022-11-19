@@ -49,7 +49,8 @@ int24_t CodeGenerator::getCode(const Command &command, const Commands &commands)
     {
         machineCode = (opcodes[command.opcode] << SHIFT_OP);
     }
-    else if (command.opcode == LW || command.opcode == SW || command.opcode == BEQ)
+    else if (command.opcode == LW || command.opcode == SW || command.opcode == BEQ ||
+             command.opcode == JMA || command.opcode == JMNE)
     {
         unsigned int addressField = commands.getLabelAddress(command.arg2);
 

@@ -94,8 +94,8 @@ void SyntaxAnalyzer::parseCode(std::string line)
 
 void SyntaxAnalyzer::checkRegister()
 {
-    if (command.opcode == LW || command.opcode == SW ||
-        command.opcode == BEQ || command.opcode == JALR)
+    if (command.opcode == LW || command.opcode == SW || command.opcode == BEQ ||
+        command.opcode == JALR || command.opcode == JMA || command.opcode == JMNE)
     {
         checkRegisterArg(command.arg0);
         checkRegisterArg(command.arg1);
@@ -124,8 +124,8 @@ void SyntaxAnalyzer::checkRegisterArg(const std::string &registerName) const
 
 void SyntaxAnalyzer::checkAddress()
 {
-    if (command.opcode == LW || command.opcode == SW ||
-        command.opcode == BEQ)
+    if (command.opcode == LW || command.opcode == SW || command.opcode == BEQ ||
+        command.opcode == JMA || command.opcode == JMNE)
     {
         checkLabelName(command.arg2);
     }
