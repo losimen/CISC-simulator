@@ -106,7 +106,15 @@ void Simulator::run()
         }
         else if (opcodes[DEC] == opcode)
         {
-            arg2 = arg0;
+            if (arg0 == 0)
+            {
+                state.stack.push(state.registers[arg0]);
+            }
+            else
+            {
+                arg2 = arg0;
+            }
+
             doRInstruction([](unsigned int a, unsigned int) { return a - 1; });
         }
         else if (opcodes[PUSH] == opcode)
@@ -140,16 +148,17 @@ void Simulator::run()
 
         state.pc = state.pc.to_uint() + 1;
         state.registers[0] = 0;
-        std::this_thread::sleep_for(std::chrono::milliseconds(200));
+        // std::this_thread::sleep_for(std::chrono::milliseconds(200));
         amountOfInstructions++;
     }
+
     std::cout << "Total amount of instructions: " << amountOfInstructions << std::endl;
 }
 
 
 void Simulator::doRInstruction(std::function<unsigned int(unsigned int, unsigned int)> func)
 {
-    if (arg0 == 0 && arg1 == 0 && arg2 == 0)
+    if (arg0 == 0)
     {
         state.isStackEmpty();
         arg0 = state.stack.top().to_int();
