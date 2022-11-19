@@ -104,7 +104,7 @@ void Simulator::run()
         {
             if (arg0 == 0)
             {
-                state.stack.push(state.registers[arg0]);
+                state.stack.push(state.stack.top());
             }
             else
             {
@@ -112,6 +112,10 @@ void Simulator::run()
             }
 
             doRInstruction([](int a, int) { return a - 1; });
+            if (arg0 == 0)
+            {
+                state.stack.pop();
+            }
         }
         else if (opcodes[IDIV] == opcode)
         {
@@ -132,6 +136,22 @@ void Simulator::run()
         else if (opcodes[OR] == opcode)
         {
             doRInstruction([](int a, int b) { return a | b; });
+        }
+        else if (opcodes[NEG] == opcode)
+        {
+            if (arg0 == 0)
+            {
+                state.stack.push(state.stack.top());
+            }
+            else
+            {
+                arg2 = arg0;
+            }
+            doRInstruction([](int a, int) { return -a; });
+            if (arg0 == 0)
+            {
+                state.stack.pop();
+            }
         }
         else if (opcodes[PUSH] == opcode)
         {

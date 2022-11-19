@@ -12,7 +12,7 @@ void asol()
     SyntaxAnalyzer syntaxAnalyzer;
     CodeGenerator codeGenerator;
 
-    FileWorker fileWorkerIn("example_programs/or_OR_pure.txt");
+    FileWorker fileWorkerIn("example_programs/count10_DEC_stack.txt");
     FileWorker fileWorkerOut("output.txt");
 
     FileContent fileContent = fileWorkerIn.read();

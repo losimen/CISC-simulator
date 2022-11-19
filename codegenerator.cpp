@@ -58,10 +58,18 @@ int24_t CodeGenerator::getCode(const Command &command, const Commands &commands)
                       (stoi(command.arg1) << SHIFT_ARG1) |
                       addressField;
     }
-    else if (command.opcode == PUSH || command.opcode == POP || command.opcode == DEC)
+    else if (command.opcode == PUSH || command.opcode == POP || command.opcode == DEC ||
+             command.opcode == NEG)
     {
-        machineCode = (opcodes[command.opcode] << SHIFT_OP) |
-                      (stoi(command.arg0) << SHIFT_ARG0);
+        if (!is_number(command.arg0))
+        {
+            machineCode = (opcodes[command.opcode] << SHIFT_OP);
+        }
+        else
+        {
+            machineCode = (opcodes[command.opcode] << SHIFT_OP) |
+                          (stoi(command.arg0) << SHIFT_ARG0);
+        }
     }
     else if (command.opcode == FILL)
     {
