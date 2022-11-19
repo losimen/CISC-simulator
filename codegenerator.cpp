@@ -29,7 +29,8 @@ int24_t CodeGenerator::getCode(const Command &command, const Commands &commands)
     int24_t machineCode;
 
     if (command.opcode == ADD || command.opcode == NAND || command.opcode == JALR ||
-        command.opcode == IDIV || command.opcode == XADD || command.opcode == SHL)
+        command.opcode == IDIV || command.opcode == XADD || command.opcode == SHL ||
+        command.opcode == OR)
     {
         if (!is_number(command.arg0))
         {

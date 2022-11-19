@@ -129,6 +129,10 @@ void Simulator::run()
         {
             doRInstruction([](int a, int b) { return a << b; });
         }
+        else if (opcodes[OR] == opcode)
+        {
+            doRInstruction([](int a, int b) { return a | b; });
+        }
         else if (opcodes[PUSH] == opcode)
         {
             if (state.stack.size() > STACK_SIZE)
