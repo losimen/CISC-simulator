@@ -6,7 +6,6 @@
 #include "codegenerator.h"
 #include "simulator.h"
 
-#include <bitset>
 
 void asol()
 {

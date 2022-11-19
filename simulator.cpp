@@ -12,13 +12,13 @@ Simulator::Simulator(const std::vector<std::string> &fileContent)
     for (auto &line: fileContent)
     {
         // TODO: check whether only integers
-        if (state.numMemory >= MAX_WORDS)
+        if (state.numMemory.to_uint() >= MAX_WORDS)
         {
             throw std::runtime_error("Exceed memory size");
         }
 
-        state.mem[state.numMemory] = std::stoi(line);
-        state.numMemory++;
+        state.mem[state.numMemory.to_uint()] = std::stoi(line);
+        state.numMemory = state.numMemory.to_uint() + 1;
     }
 
     for (auto &reg: state.registers)
