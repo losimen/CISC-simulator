@@ -101,7 +101,7 @@ void SyntaxAnalyzer::checkRegister()
         checkRegisterArg(command.arg1);
     }
 
-    if (command.opcode == PUSH || command.opcode == POP)
+    if (command.opcode == PUSH || command.opcode == POP || command.opcode == DEC)
     {
         checkRegisterArg(command.arg0);
     }

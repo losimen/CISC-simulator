@@ -29,6 +29,7 @@ Simulator::Simulator(const std::vector<std::string> &fileContent)
 
 void Simulator::run()
 {
+    unsigned int amountOfInstructions = 0;
     while (true)
     {
         opcode = state.mem[state.pc.to_uint()].to_uint() >> SHIFT_OP;
@@ -103,6 +104,11 @@ void Simulator::run()
         {
             // std::cout << "NOOP" << std::endl;
         }
+        else if (opcodes[DEC] == opcode)
+        {
+            arg2 = arg0;
+            doRInstruction([](unsigned int a, unsigned int) { return a - 1; });
+        }
         else if (opcodes[PUSH] == opcode)
         {
             if (state.stack.size() > STACK_SIZE)
@@ -135,11 +141,11 @@ void Simulator::run()
         state.pc = state.pc.to_uint() + 1;
         state.registers[0] = 0;
         std::this_thread::sleep_for(std::chrono::milliseconds(200));
+        amountOfInstructions++;
     }
-
-
-
+    std::cout << "Total amount of instructions: " << amountOfInstructions << std::endl;
 }
+
 
 void Simulator::doRInstruction(std::function<unsigned int(unsigned int, unsigned int)> func)
 {

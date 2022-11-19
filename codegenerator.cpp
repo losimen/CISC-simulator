@@ -56,7 +56,7 @@ int24_t CodeGenerator::getCode(const Command &command, const Commands &commands)
                       (stoi(command.arg1) << SHIFT_ARG1) |
                       addressField;
     }
-    else if (command.opcode == PUSH || command.opcode == POP)
+    else if (command.opcode == PUSH || command.opcode == POP || command.opcode == DEC)
     {
         machineCode = (opcodes[command.opcode] << SHIFT_OP) |
                       (stoi(command.arg0) << SHIFT_ARG0);
