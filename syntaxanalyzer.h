@@ -47,5 +47,4 @@ public:
 };
 
 
-
 #endif //KURSOVAAK_SYNTAXANALYZER_H

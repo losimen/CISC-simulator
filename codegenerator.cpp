@@ -3,7 +3,7 @@
 //
 
 #include "codegenerator.h"
-#include <iostream>
+
 
 using namespace std;
 using namespace Info;
@@ -18,13 +18,13 @@ void CodeGenerator::generate(const FileWorker &fileWorker, const Commands &comma
 
     for (unsigned int it = 0; it < commandsLength; it++)
     {
-        machineCode = _getCode(commands[it], commands).to_uint();
+        machineCode = getCode(commands[it], commands).to_uint();
         fileWorker.write(std::to_string(machineCode.to_uint()) + '\n');
     }
 }
 
 
-int24_t CodeGenerator::_getCode(const Command &command, const Commands &commands)
+int24_t CodeGenerator::getCode(const Command &command, const Commands &commands)
 {
     int24_t machineCode = 0;
 

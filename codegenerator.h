@@ -16,7 +16,7 @@
 class CodeGenerator
 {
 private:
-    static int24_t _getCode(const Command &command, const Commands &commands);
+    static int24_t getCode(const Command &command, const Commands &commands);
 
 public:
     static void generate(const FileWorker &fileWorker, const Commands &commands);
