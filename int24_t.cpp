@@ -28,3 +28,19 @@ int24_t &int24_t::operator=(int value)
     _value = value;
     return *this;
 }
+
+
+int int24_t::to_int() const
+{
+    if (_value >= INT24_NEG)
+        return -_value;
+//        return _value - INT24_NEG * 2;
+    else
+        return _value;
+}
+
+
+int32_t int24_t::to_uint() const
+{
+    return _value;
+}

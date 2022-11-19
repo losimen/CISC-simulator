@@ -8,7 +8,9 @@
 #include <cstdint>
 #include <stdexcept>
 
-#define INT24_MAX 8388607
+#define INT24_MAX 16777215
+#define INT24_NEG 8388608
+
 
 class int24_t {
 private:
@@ -19,6 +21,9 @@ public:
     int24_t(int value);
 
     int24_t &operator=(int value);
+
+    int to_int() const;
+    int32_t to_uint() const;
 
 };
 

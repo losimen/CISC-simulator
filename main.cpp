@@ -1,5 +1,4 @@
 #include <iostream>
-#include <bitset>
 #include <stack>
 
 #include "fileworker.h"
@@ -7,7 +6,7 @@
 #include "codegenerator.h"
 #include "simulator.h"
 
-
+#include <bitset>
 
 void asol()
 {
@@ -18,9 +17,7 @@ void asol()
     FileWorker fileWorkerOut("output.txt");
 
     FileContent fileContent = fileWorkerIn.read();
-
     Commands commands;
-    std::vector<std::string> labels;
 
     try
     {
@@ -36,7 +33,6 @@ void asol()
 
 void ssol()
 {
-    using namespace Info;
     FileWorker fileWorker("output.txt");
     FileContent fileContent = fileWorker.read();
     Simulator simulator(fileContent);
@@ -50,10 +46,6 @@ int main()
 {
     asol();
     ssol();
-
-// TODO: change to uint32_t
-
-
 
     return 0;
 }

@@ -17,9 +17,9 @@ class Simulator {
 private:
     struct StateStruct
     {
-        int pc = 0;
-        std::array<int, MAX_WORDS> mem;
-        std::array<int, AMOUNT_OF_REGISTERS> registers;
+        int24_t pc = 0;
+        std::array<int24_t, MAX_WORDS> mem;
+        std::array<int24_t, AMOUNT_OF_REGISTERS> registers;
         int numMemory = 0;
     } state;
 

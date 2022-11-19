@@ -12,21 +12,21 @@ using namespace Info;
 void CodeGenerator::generate(const FileWorker &fileWorker, const Commands &commands)
 {
     const unsigned int commandsLength = commands.size();
-    unsigned int machineCode;
+    int24_t machineCode;
 
     fileWorker.clear();
 
     for (unsigned int it = 0; it < commandsLength; it++)
     {
-        machineCode = _getCode(commands[it], commands);
-        fileWorker.write(std::to_string(machineCode) + '\n');
+        machineCode = _getCode(commands[it], commands).to_uint();
+        fileWorker.write(std::to_string(machineCode.to_uint()) + '\n');
     }
 }
 
 
-unsigned int CodeGenerator::_getCode(const Command &command, const Commands &commands)
+int24_t CodeGenerator::_getCode(const Command &command, const Commands &commands)
 {
-    unsigned int machineCode = 0;
+    int24_t machineCode = 0;
 
     if (command.opcode == ADD || command.opcode == NAND || command.opcode == JALR)
     {
