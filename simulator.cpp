@@ -241,6 +241,10 @@ void Simulator::doRInstruction(std::function<unsigned int(int, int)> func)
         {
             state.CF = true;
         }
+        else
+        {
+            state.CF = false;
+        }
     }
     else
     {
@@ -248,6 +252,10 @@ void Simulator::doRInstruction(std::function<unsigned int(int, int)> func)
         if (state.registers[arg2].isOverflow1())
         {
             state.CF = true;
+        }
+        else
+        {
+            state.CF = false;
         }
     }
 }

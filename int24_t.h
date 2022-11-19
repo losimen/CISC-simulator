@@ -16,8 +16,6 @@ class int24_t {
 private:
     int32_t _value;
     bool isOverflow;
-public:
-    bool isOverflow1() const;
 
 public:
     int24_t();
@@ -28,6 +26,7 @@ public:
     int to_int() const;
     int32_t to_uint() const;
 
+    bool isOverflow1() const;
 };
 
 
