@@ -16,6 +16,7 @@
 #define MAX_LABEL_LENGTH 7
 #define MAX_LABELS_AMOUNT 100
 #define MAX_WORDS 4096
+#define STACK_SIZE 100
 
 #define ADD "add"
 #define NAND "nand"
@@ -46,6 +47,13 @@
 //    18   15  12           0
 //     |   |   |            |
 // 00000 000 000 000000000000
+
+//    18   15  12           0
+//     |   |   |            |
+// 00000 000 000 000000000 000
+
+
+
 namespace Info
 {
     static std::map<std::string, int> opcodes {{ADD, 0},
@@ -55,7 +63,19 @@ namespace Info
                                                {BEQ, 4},
                                                {JALR, 5},
                                                {HALT, 6},
-                                               {NOOP, 7}};
+                                               {NOOP, 7},
+                                               {DEC, 8},
+                                               {IDIV, 9},
+                                               {XADD, 10},
+                                               {SHL, 11},
+                                               {OR, 12},
+                                               {NEG, 13},
+                                               {JMA, 14},
+                                               {JMNE, 15},
+                                               {ADC, 16},
+                                               {JGE, 17},
+                                               {PUSH, 18},
+                                               {POP, 19}};
 }
 
 
