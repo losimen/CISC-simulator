@@ -30,7 +30,7 @@ private:
     } state;
 
     void doRInstruction(unsigned int arg0, unsigned int arg1, unsigned int arg2,
-                        std::function<unsigned int(unsigned int, unsigned int, unsigned int)> func);
+                        std::function<unsigned int(unsigned int, unsigned int)> func);
 
 public:
     Simulator() = delete;

@@ -51,28 +51,11 @@ void Simulator::run()
 
         if (opcodes[ADD] == opcode)
         {
-            if (arg0 == 0 && arg1 == 0 && arg2 == 0)
-            {
-                // TODO: move to functions
-                state.isStackEmpty();
-                arg0 = state.stack.top().to_int();
-                state.stack.pop();
-
-                state.isStackEmpty();
-                arg1 = state.stack.top().to_int();
-                state.stack.pop();
-
-                state.stack.push(arg0 + arg1);
-            }
-            else
-            {
-                state.registers[arg2] = state.registers[arg0].to_int() + state.registers[arg1].to_int();
-            }
+            doRInstruction(arg0, arg1, arg2, [](unsigned int a, unsigned int b) { return a + b; });
         }
         else if (opcodes[NAND] == opcode)
         {
-//            std::cout << "NAND " << arg0 << " " << arg1 << " " << arg2 << std::endl;
-            state.registers[arg2] = ~(state.registers[arg0].to_uint() & state.registers[arg1].to_uint());
+            doRInstruction(arg0, arg1, arg2, [](unsigned int a, unsigned int b) { return ~(a & b); });
         }
         else if (opcodes[LW] == opcode)
         {
@@ -159,7 +142,7 @@ void Simulator::run()
 }
 
 void Simulator::doRInstruction(unsigned int arg0, unsigned int arg1, unsigned int arg2,
-                               std::function<unsigned int(unsigned int, unsigned int, unsigned int)> func)
+                               std::function<unsigned int(unsigned int, unsigned int)> func)
 {
     if (arg0 == 0 && arg1 == 0 && arg2 == 0)
     {
@@ -171,11 +154,11 @@ void Simulator::doRInstruction(unsigned int arg0, unsigned int arg1, unsigned in
         arg1 = state.stack.top().to_int();
         state.stack.pop();
 
-        state.stack.push(func(arg0, arg1, arg2));
+        state.stack.push(func(arg0, arg1));
     }
     else
     {
-        state.registers[arg2] = state.registers[arg0].to_int() + state.registers[arg1].to_int();
+        state.registers[arg2] = func(state.registers[arg0].to_uint(), state.registers[arg1].to_uint());
     }
 }
 
