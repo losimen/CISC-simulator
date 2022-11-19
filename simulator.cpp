@@ -125,6 +125,10 @@ void Simulator::run()
             state.registers[arg0] = state.registers[arg1];
             state.registers[arg1] = temp;
         }
+        else if (opcodes[SHL] == opcode)
+        {
+            doRInstruction([](int a, int b) { return a << b; });
+        }
         else if (opcodes[PUSH] == opcode)
         {
             if (state.stack.size() > STACK_SIZE)
