@@ -35,7 +35,7 @@ private:
         void isStackEmpty() const;
     } state;
 
-    void doRInstruction(std::function<unsigned int(unsigned int, unsigned int)> func);
+    void doRInstruction(std::function<unsigned int(int, int)> func);
 
 public:
     Simulator() = delete;

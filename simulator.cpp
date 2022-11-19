@@ -117,6 +117,10 @@ void Simulator::run()
 
             doRInstruction([](unsigned int a, unsigned int) { return a - 1; });
         }
+        else if (opcodes[IDIV] == opcode)
+        {
+            doRInstruction([](int a, int b) { return a / b; });
+        }
         else if (opcodes[PUSH] == opcode)
         {
             if (state.stack.size() > STACK_SIZE)
@@ -156,7 +160,7 @@ void Simulator::run()
 }
 
 
-void Simulator::doRInstruction(std::function<unsigned int(unsigned int, unsigned int)> func)
+void Simulator::doRInstruction(std::function<unsigned int(int, int)> func)
 {
     if (arg0 == 0)
     {
@@ -172,7 +176,7 @@ void Simulator::doRInstruction(std::function<unsigned int(unsigned int, unsigned
     }
     else
     {
-        state.registers[arg2] = func(state.registers[arg0].to_uint(), state.registers[arg1].to_uint());
+        state.registers[arg2] = func(state.registers[arg0].to_int(), state.registers[arg1].to_int());
     }
 }
 

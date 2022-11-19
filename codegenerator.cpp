@@ -26,9 +26,10 @@ void CodeGenerator::generate(const FileWorker &fileWorker, const Commands &comma
 
 int24_t CodeGenerator::getCode(const Command &command, const Commands &commands)
 {
-    int24_t machineCode = 0;
+    int24_t machineCode;
 
-    if (command.opcode == ADD || command.opcode == NAND || command.opcode == JALR)
+    if (command.opcode == ADD || command.opcode == NAND || command.opcode == JALR ||
+        command.opcode == IDIV || command.opcode == XADD)
     {
         if (!is_number(command.arg0))
         {
