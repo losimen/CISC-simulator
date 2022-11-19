@@ -8,7 +8,7 @@
 #include <vector>
 
 #include "command.h"
-#include "syntaxerror.h"
+#include "myerror.h"
 
 
 class Commands

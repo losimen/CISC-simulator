@@ -2,7 +2,7 @@
 // Created by Павло Коваль on 06.11.2022.
 //
 
-#include "myerror.h"
+#include "syntaxanalyzer.h"
 
 using namespace Info;
 

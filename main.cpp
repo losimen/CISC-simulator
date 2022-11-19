@@ -2,7 +2,7 @@
 #include <stack>
 
 #include "fileworker.h"
-#include "myerror.h"
+#include "syntaxanalyzer.h"
 #include "codegenerator.h"
 #include "simulator.h"
 

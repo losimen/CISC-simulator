@@ -1,51 +1,36 @@
 //
-// Created by Павло Коваль on 06.11.2022.
+// Created by Павло Коваль on 14.11.2022.
 //
 
 #ifndef KURSOVAAK_MYERROR_H
 #define KURSOVAAK_MYERROR_H
 
-#include <vector>
-#include <map>
+#include <exception>
 #include <string>
-#include <array>
-#include <iostream>
-#include <algorithm>
-#include <regex>
-
-#include "syntaxerror.h"
-#include "int24_t.h"
-#include "command.h"
-#include "commands.h"
-#include "info.h"
+#include <utility>
 
 
-class SyntaxAnalyzer
+class MyError: public std::exception
 {
 private:
-    Command command;
+    std::string message;
 
-    static const std::vector<std::string> labelAlphabet;
-    std::vector<std::string> labels;
-
-    static void removeDuplicatedSpaces(std::string &line);
-
-    void checkRegisterArg(const std::string &registerName) const;
-    void checkLabelName(const std::string &labelName) const;
-
-    void checkRegister();
-    void checkLabel();
-    void checkAddress();
-    void checkOpcode() const;
-
-    void parseCode(std::string line);
 public:
-    SyntaxAnalyzer();
+    const char *what () const noexcept override
+    {
+        return message.c_str();
+    }
 
-    Commands analyzeCode(std::vector<std::string> fileContent);
-    std::vector<std::string> getLabels() const;
+    MyError(unsigned int line, const std::string& message)
+    {
+        this->message = "ERROR in line: " + std::to_string(line) + "| " + message;
+    }
+
+    explicit MyError(const std::string &message)
+    {
+        this->message = message;
+    }
 };
-
 
 
 #endif //KURSOVAAK_MYERROR_H

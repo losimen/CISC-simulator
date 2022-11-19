@@ -11,7 +11,7 @@
 #include <thread>
 #include <stack>
 
-#include "syntaxerror.h"
+#include "myerror.h"
 #include "info.h"
 
 
