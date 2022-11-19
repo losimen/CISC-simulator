@@ -2,7 +2,7 @@
 #include <stack>
 
 #include "fileworker.h"
-#include "syntaxanalyzer.h"
+#include "myerror.h"
 #include "codegenerator.h"
 #include "simulator.h"
 
@@ -12,7 +12,7 @@ void asol()
     SyntaxAnalyzer syntaxAnalyzer;
     CodeGenerator codeGenerator;
 
-    FileWorker fileWorkerIn("example.txt");
+    FileWorker fileWorkerIn("example_stack.txt");
     FileWorker fileWorkerOut("output.txt");
 
     FileContent fileContent = fileWorkerIn.read();
@@ -36,9 +36,15 @@ void ssol()
     FileContent fileContent = fileWorker.read();
     Simulator simulator(fileContent);
 
-    simulator.run();
+    try
+    {
+        simulator.run();
+    }
+    catch (std::exception &e)
+    {
+        std::cerr << e.what() << std::endl;
+    }
 }
-
 
 
 int main()

@@ -30,10 +30,18 @@ int24_t CodeGenerator::_getCode(const Command &command, const Commands &commands
 
     if (command.opcode == ADD || command.opcode == NAND || command.opcode == JALR)
     {
-        machineCode = (opcodes[command.opcode] << SHIFT_OP) |
-                       (stoi(command.arg0) << SHIFT_ARG0) |
-                       (stoi(command.arg1) << SHIFT_ARG1) |
-                        stoi(command.arg2);
+        if (!is_number(command.arg0))
+        {
+            machineCode = (opcodes[command.opcode] << SHIFT_OP);
+        }
+        else
+        {
+            machineCode = (opcodes[command.opcode] << SHIFT_OP) |
+                          (stoi(command.arg0) << SHIFT_ARG0) |
+                          (stoi(command.arg1) << SHIFT_ARG1) |
+                          stoi(command.arg2);
+        }
+
     }
     else if (command.opcode == NOOP || command.opcode == HALT)
     {
@@ -48,9 +56,18 @@ int24_t CodeGenerator::_getCode(const Command &command, const Commands &commands
                       (stoi(command.arg1) << SHIFT_ARG1) |
                       addressField;
     }
+    else if (command.opcode == PUSH || command.opcode == POP)
+    {
+        machineCode = (opcodes[command.opcode] << SHIFT_OP) |
+                      (stoi(command.arg0) << SHIFT_ARG0);
+    }
     else if (command.opcode == FILL)
     {
         machineCode = stoi(command.arg0);
+    }
+    else
+    {
+        throw std::runtime_error("Unknown opcode");
     }
 
     return machineCode;

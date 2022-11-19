@@ -16,7 +16,8 @@
 #define MAX_LABEL_LENGTH 7
 #define MAX_LABELS_AMOUNT 100
 #define MAX_WORDS 4096
-#define STACK_SIZE 100
+
+#define STACK_SIZE 4
 
 #define ADD "add"
 #define NAND "nand"
@@ -52,6 +53,8 @@
 //     |   |   |            |
 // 00000 000 000 000000000 000
 
+
+bool is_number(const std::string& s);
 
 
 namespace Info

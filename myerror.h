@@ -2,8 +2,8 @@
 // Created by Павло Коваль on 06.11.2022.
 //
 
-#ifndef KURSOVAAK_SYNTAXANALYZER_H
-#define KURSOVAAK_SYNTAXANALYZER_H
+#ifndef KURSOVAAK_MYERROR_H
+#define KURSOVAAK_MYERROR_H
 
 #include <vector>
 #include <map>
@@ -48,4 +48,4 @@ public:
 
 
 
-#endif //KURSOVAAK_SYNTAXANALYZER_H
+#endif //KURSOVAAK_MYERROR_H

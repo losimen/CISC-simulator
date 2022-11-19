@@ -10,7 +10,7 @@
 #include <utility>
 
 
-class SyntaxError: public std::exception
+class MyError: public std::exception
 {
 private:
     std::string message;
@@ -21,12 +21,12 @@ public:
         return message.c_str();
     }
 
-    SyntaxError(unsigned int line, const std::string& message)
+    MyError(unsigned int line, const std::string& message)
     {
         this->message = "ERROR in line: " + std::to_string(line) + "| " + message;
     }
 
-    explicit SyntaxError(const std::string &message)
+    explicit MyError(const std::string &message)
     {
         this->message = message;
     }

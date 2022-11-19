@@ -2,7 +2,7 @@
 // Created by Павло Коваль on 06.11.2022.
 //
 
-#include "syntaxanalyzer.h"
+#include "myerror.h"
 
 using namespace Info;
 
@@ -94,17 +94,16 @@ void SyntaxAnalyzer::parseCode(std::string line)
 
 void SyntaxAnalyzer::checkRegister()
 {
-    if (command.opcode == ADD || command.opcode == NAND ||
-        command.opcode == LW || command.opcode == SW ||
+    if (command.opcode == LW || command.opcode == SW ||
         command.opcode == BEQ || command.opcode == JALR)
     {
         checkRegisterArg(command.arg0);
         checkRegisterArg(command.arg1);
     }
 
-    if (command.opcode == ADD || command.opcode == NAND)
+    if (command.opcode == PUSH || command.opcode == POP)
     {
-        checkRegisterArg(command.arg2);
+        checkRegisterArg(command.arg0);
     }
 }
 
@@ -113,12 +112,12 @@ void SyntaxAnalyzer::checkRegisterArg(const std::string &registerName) const
 {
     if (!std::isdigit(registerName[0]))
     {
-        throw SyntaxError(command.address + 1, "Register name must be digit number");
+        throw MyError(command.address + 1, "Register name must be digit number");
     }
 
     if (std::stoi(registerName) < 0 || std::stoi(registerName) > 7)
     {
-        throw SyntaxError(command.address + 1, "Register number is out of range");
+        throw MyError(command.address + 1, "Register number is out of range");
     }
 }
 
@@ -135,7 +134,7 @@ void SyntaxAnalyzer::checkAddress()
     {
         // MAX 12 bit number - 2048
         if (std::stoi(command.arg0) >= 2048)
-            throw SyntaxError("To big value!");
+            throw MyError("To big value!");
     }
 }
 
@@ -145,7 +144,7 @@ void SyntaxAnalyzer::checkOpcode() const
     if (opcodes.find(command.opcode) == opcodes.end())
     {
         if ( !(command.opcode == FILL) )
-            throw SyntaxError(command.address + 1, "Unknown opcode - " + command.opcode);
+            throw MyError(command.address + 1, "Unknown opcode - " + command.opcode);
     }
 }
 
@@ -154,19 +153,19 @@ void SyntaxAnalyzer::checkLabelName(const std::string &labelName) const
 {
     if (std::isdigit(labelName[0]))
     {
-        throw SyntaxError(command.address + 1, "Label name must not start with digit");
+        throw MyError(command.address + 1, "Label name must not start with digit");
     }
 
     if (labelName.length() > MAX_LABEL_LENGTH)
     {
-        throw SyntaxError(command.address + 1, "Label name is too long");
+        throw MyError(command.address + 1, "Label name is too long");
     }
 
     for (auto &ch: labelName)
     {
         if (std::find(labelAlphabet.begin(), labelAlphabet.end(), std::string(1, ch)) == labelAlphabet.end())
         {
-            throw SyntaxError(command.address + 1, "Label name contains invalid character");
+            throw MyError(command.address + 1, "Label name contains invalid character");
         }
     }
 }
@@ -178,13 +177,13 @@ void SyntaxAnalyzer::checkLabel()
 
     if (std::find(labels.begin(), labels.end(), command.label) != labels.end())
     {
-        throw SyntaxError(command.address + 1, "Label already exists");
+        throw MyError(command.address + 1, "Label already exists");
     }
     labels.push_back(command.label);
 
     if (labels.size() > MAX_LABELS_AMOUNT)
     {
-        throw SyntaxError(command.address + 1, "Too many labels");
+        throw MyError(command.address + 1, "Too many labels");
     }
 }
 

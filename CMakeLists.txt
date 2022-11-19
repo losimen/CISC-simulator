@@ -18,13 +18,13 @@ enable_testing()
 
 add_executable(
         hello_test
-        assember_test.cpp fileworker.cpp fileworker.h syntaxanalyzer.cpp syntaxanalyzer.h int24_t.cpp int24_t.h info.h
-        commands.cpp commands.h codegenerator.cpp codegenerator.h simulator.cpp simulator.h)
+        assember_test.cpp fileworker.cpp fileworker.h myerror.cpp myerror.h int24_t.cpp int24_t.h info.h
+        commands.cpp commands.h codegenerator.cpp codegenerator.h simulator.cpp simulator.h info.cpp)
 
 add_executable(
         KursovaAK
         main.cpp
-        fileworker.cpp fileworker.h syntaxanalyzer.cpp syntaxanalyzer.h int24_t.cpp int24_t.h info.h commands.cpp commands.h codegenerator.cpp codegenerator.h simulator.cpp simulator.h)
+        fileworker.cpp fileworker.h myerror.cpp myerror.h int24_t.cpp int24_t.h info.h commands.cpp commands.h codegenerator.cpp codegenerator.h simulator.cpp simulator.h info.cpp)
 
 target_link_libraries(
         hello_test

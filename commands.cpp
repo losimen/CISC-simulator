@@ -14,7 +14,7 @@ unsigned int Commands::getLabelAddress(const std::string &label) const
         }
     }
 
-    throw SyntaxError("Label not found " + label);
+    throw MyError("Label not found " + label);
 }
 
 

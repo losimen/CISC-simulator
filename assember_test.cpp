@@ -2,9 +2,11 @@
 #pragma ide diagnostic ignored "cert-err58-cpp"
 
 #include <gtest/gtest.h>
-#include "syntaxanalyzer.h"
+#include "myerror.h"
 #include "fileworker.h"
 
+// TODO: add stack tests overflow
+// TODO: add stack tests is empty
 
 TEST(FileWorker, NotExistingFile)
 {
@@ -34,13 +36,13 @@ TEST(Opcode, UnknownOpcode)
 
     SyntaxAnalyzer syntaxAnalyzer;
 
-    ASSERT_THROW(syntaxAnalyzer.analyzeCode(fileContent), SyntaxError);
+    ASSERT_THROW(syntaxAnalyzer.analyzeCode(fileContent), MyError);
 
     try
     {
         syntaxAnalyzer.analyzeCode(fileContent);
     }
-    catch (SyntaxError &e)
+    catch (MyError &e)
     {
         std::string what = e.what();
 
@@ -61,13 +63,13 @@ TEST(Register, MustBeNumber)
 
     SyntaxAnalyzer syntaxAnalyzer;
 
-    ASSERT_THROW(syntaxAnalyzer.analyzeCode(fileContent), SyntaxError);
+    ASSERT_THROW(syntaxAnalyzer.analyzeCode(fileContent), MyError);
 
     try
     {
         syntaxAnalyzer.analyzeCode(fileContent);
     }
-    catch (SyntaxError &e)
+    catch (MyError &e)
     {
         std::string what = e.what();
 
@@ -88,13 +90,13 @@ TEST(Register, OutOfRange)
 
     SyntaxAnalyzer syntaxAnalyzer;
 
-    ASSERT_THROW(syntaxAnalyzer.analyzeCode(fileContent), SyntaxError);
+    ASSERT_THROW(syntaxAnalyzer.analyzeCode(fileContent), MyError);
 
     try
     {
         syntaxAnalyzer.analyzeCode(fileContent);
     }
-    catch (SyntaxError &e)
+    catch (MyError &e)
     {
         std::string what = e.what();
 
@@ -115,13 +117,13 @@ TEST(Label, MustNotStartWithDigit)
 
     SyntaxAnalyzer syntaxAnalyzer;
 
-    ASSERT_THROW(syntaxAnalyzer.analyzeCode(fileContent), SyntaxError);
+    ASSERT_THROW(syntaxAnalyzer.analyzeCode(fileContent), MyError);
 
     try
     {
         syntaxAnalyzer.analyzeCode(fileContent);
     }
-    catch (SyntaxError &e)
+    catch (MyError &e)
     {
         std::string what = e.what();
 
@@ -142,13 +144,13 @@ TEST(Label, NameIsToLong)
 
     SyntaxAnalyzer syntaxAnalyzer;
 
-    ASSERT_THROW(syntaxAnalyzer.analyzeCode(fileContent), SyntaxError);
+    ASSERT_THROW(syntaxAnalyzer.analyzeCode(fileContent), MyError);
 
     try
     {
         syntaxAnalyzer.analyzeCode(fileContent);
     }
-    catch (SyntaxError &e)
+    catch (MyError &e)
     {
         std::string what = e.what();
 
@@ -169,13 +171,13 @@ TEST(Label, InvalidCharacter)
 
     SyntaxAnalyzer syntaxAnalyzer;
 
-    ASSERT_THROW(syntaxAnalyzer.analyzeCode(fileContent), SyntaxError);
+    ASSERT_THROW(syntaxAnalyzer.analyzeCode(fileContent), MyError);
 
     try
     {
         syntaxAnalyzer.analyzeCode(fileContent);
     }
-    catch (SyntaxError &e)
+    catch (MyError &e)
     {
         std::string what = e.what();
 
@@ -196,12 +198,12 @@ TEST(Label, AlreadyExists)
 
     SyntaxAnalyzer syntaxAnalyzer;
 
-    ASSERT_THROW(syntaxAnalyzer.analyzeCode(fileContent), SyntaxError);
+    ASSERT_THROW(syntaxAnalyzer.analyzeCode(fileContent), MyError);
 
     try {
         syntaxAnalyzer.analyzeCode(fileContent);
     }
-    catch (SyntaxError &e) {
+    catch (MyError &e) {
         std::string what = e.what();
 
         if (what.find("Label already exists") == std::string::npos) {
@@ -220,7 +222,7 @@ TEST(Label, ToManyLabels)
 
     SyntaxAnalyzer syntaxAnalyzer1;
 
-    ASSERT_THROW(syntaxAnalyzer1.analyzeCode(fileContent), SyntaxError);
+    ASSERT_THROW(syntaxAnalyzer1.analyzeCode(fileContent), MyError);
 
 
     try
@@ -228,7 +230,7 @@ TEST(Label, ToManyLabels)
         SyntaxAnalyzer syntaxAnalyzer2;
         syntaxAnalyzer2.analyzeCode(fileContent);
     }
-    catch (SyntaxError &e)
+    catch (MyError &e)
     {
         std::string what = e.what();
 

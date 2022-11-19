@@ -11,7 +11,6 @@ Simulator::Simulator(const std::vector<std::string> &fileContent)
 {
     for (auto &line: fileContent)
     {
-        // TODO: check whether only integers
         if (state.numMemory.to_uint() >= MAX_WORDS)
         {
             throw std::runtime_error("Exceed memory size");
@@ -52,8 +51,23 @@ void Simulator::run()
 
         if (opcodes[ADD] == opcode)
         {
-//            std::cout << "ADD " << arg0 << " " << arg1 << " " << arg2 << std::endl;
-            state.registers[arg2] = state.registers[arg0].to_int() + state.registers[arg1].to_int();
+            if (arg0 == 0 && arg1 == 0 && arg2 == 0)
+            {
+                // TODO: move to functions
+                state.isStackEmpty();
+                arg0 = state.stack.top().to_int();
+                state.stack.pop();
+
+                state.isStackEmpty();
+                arg1 = state.stack.top().to_int();
+                state.stack.pop();
+
+                state.stack.push(arg0 + arg1);
+            }
+            else
+            {
+                state.registers[arg2] = state.registers[arg0].to_int() + state.registers[arg1].to_int();
+            }
         }
         else if (opcodes[NAND] == opcode)
         {
@@ -105,9 +119,28 @@ void Simulator::run()
             // std::cout << "HALT" << std::endl;
             break;
         }
-        else if (7 == opcode)
+        else if (opcodes[NOOP] == opcode)
         {
             // std::cout << "NOOP" << std::endl;
+        }
+        else if (opcodes[PUSH] == opcode)
+        {
+            if (state.stack.size() > STACK_SIZE)
+            {
+                throw MyError(state.pc.to_uint(), "Exceed stack size");
+            }
+
+            state.stack.push(state.registers[arg0]);
+        }
+        else if (opcodes[POP] == opcode)
+        {
+            if (state.stack.empty())
+            {
+                throw MyError(state.pc.to_uint(), "Stack is empty");
+            }
+
+            state.registers[arg0] = state.stack.top();
+            state.stack.pop();
         }
         else
         {
@@ -116,11 +149,41 @@ void Simulator::run()
 
         state.pc = state.pc.to_uint() + 1;
         state.registers[0] = 0;
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        std::this_thread::sleep_for(std::chrono::milliseconds(200));
     }
 
 
     unsigned int regc = 0;
     for (auto reg: state.registers)
         std::cout << regc++ << " " << reg.to_int() << std::endl;
+}
+
+void Simulator::doRInstruction(unsigned int arg0, unsigned int arg1, unsigned int arg2,
+                               std::function<unsigned int(unsigned int, unsigned int, unsigned int)> func)
+{
+    if (arg0 == 0 && arg1 == 0 && arg2 == 0)
+    {
+        state.isStackEmpty();
+        arg0 = state.stack.top().to_int();
+        state.stack.pop();
+
+        state.isStackEmpty();
+        arg1 = state.stack.top().to_int();
+        state.stack.pop();
+
+        state.stack.push(func(arg0, arg1, arg2));
+    }
+    else
+    {
+        state.registers[arg2] = state.registers[arg0].to_int() + state.registers[arg1].to_int();
+    }
+}
+
+
+void Simulator::StateStruct::isStackEmpty() const
+{
+    if (stack.empty())
+    {
+        throw MyError(pc.to_uint(), "Stack is empty");
+    }
 }
