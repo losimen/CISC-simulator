@@ -42,6 +42,7 @@
 #define PUSH "push"
 #define POP "pop"
 #define ADC "adc"
+#define CMP "cmp"
 #define JL "jl"
 #define JE "je"
 
@@ -84,8 +85,9 @@ namespace Info
                                                {JGE, 17},
                                                {PUSH, 18},
                                                {POP, 19},
-                                               {JL, 21},
-                                               {JE, 22}};
+                                               {CMP, 23},
+                                               {JL, 24},
+                                               {JE, 25}};
 }
 
 

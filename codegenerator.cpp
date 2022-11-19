@@ -72,6 +72,19 @@ int24_t CodeGenerator::getCode(const Command &command, const Commands &commands)
                           (stoi(command.arg0) << SHIFT_ARG0);
         }
     }
+    else if (command.opcode == CMP)
+    {
+        machineCode = (opcodes[command.opcode] << SHIFT_OP) |
+                      (stoi(command.arg0) << SHIFT_ARG0) |
+                      (stoi(command.arg1) << SHIFT_ARG1);
+    }
+    else if (command.opcode == JL || command.opcode == JE)
+    {
+        unsigned int addressField = commands.getLabelAddress(command.arg0);
+
+        machineCode = (opcodes[command.opcode] << SHIFT_OP) |
+                      addressField;
+    }
     else if (command.opcode == FILL)
     {
         machineCode = stoi(command.arg0);

@@ -199,6 +199,41 @@ void Simulator::run()
                 state.CF = true;
             }
         }
+        else if (opcodes[CMP] == opcode)
+        {
+            if (state.registers[arg0].to_int() < state.registers[arg1].to_int())
+            {
+                state.CF = true;
+                state.SF = true;
+                state.ZF = false;
+            }
+            if (state.registers[arg0].to_int() == state.registers[arg1].to_int())
+            {
+                state.CF = false;
+                state.SF = false;
+                state.ZF = true;
+            }
+            if (state.registers[arg0].to_int() > state.registers[arg1].to_int())
+            {
+                state.CF = false;
+                state.SF = false;
+                state.ZF = false;
+            }
+        }
+        else if (opcodes[JL] == opcode)
+        {
+            if (state.SF)
+            {
+                state.pc = addressField-1;
+            }
+        }
+        else if (opcodes[JE] == opcode)
+        {
+            if (!state.ZF)
+            {
+                state.pc = addressField-1;
+            }
+        }
         else
         {
             throw std::runtime_error("Unknown opcode at address " + std::to_string(state.pc.to_uint()));

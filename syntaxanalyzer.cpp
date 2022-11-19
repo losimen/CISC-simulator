@@ -94,6 +94,7 @@ void SyntaxAnalyzer::parseCode(std::string line)
 
 void SyntaxAnalyzer::checkRegister()
 {
+    // TODO: add check for R-instructions
     if (command.opcode == LW || command.opcode == SW || command.opcode == BEQ ||
         command.opcode == JALR || command.opcode == JMA || command.opcode == JMNE)
     {
