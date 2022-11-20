@@ -12,7 +12,7 @@ void asol()
     SyntaxAnalyzer syntaxAnalyzer;
     CodeGenerator codeGenerator;
 
-    FileWorker fileWorkerIn("example_programs/cmp_JE.txt");
+    FileWorker fileWorkerIn("example_programs/cmp_JL.txt");
     FileWorker fileWorkerOut("output.txt");
 
     FileContent fileContent = fileWorkerIn.read();

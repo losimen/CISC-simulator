@@ -16,20 +16,26 @@ FetchContent_MakeAvailable(googletest)
 
 enable_testing()
 
-add_executable(
-        hello_test
-        assember_test.cpp fileworker.cpp fileworker.h syntaxanalyzer.cpp syntaxanalyzer.h int24_t.cpp int24_t.h info.h
-        commands.cpp commands.h codegenerator.cpp codegenerator.h simulator.cpp simulator.h info.cpp)
+include(translator/CMakeLists.txt)
+include(services/CMakeLists.txt)
+include(simulator/CMakeLists.txt)
+
+#add_executable(
+#        hello_test
+#        assember_test.cpp fileworker.cpp fileworker.h syntaxanalyzer.cpp syntaxanalyzer.h int24_t.cpp int24_t.h info.h
+#        commands.cpp commands.h codegenerator.cpp codegenerator.h simulator.cpp simulator.h info.cpp)
 
 add_executable(
         KursovaAK
         main.cpp
-        fileworker.cpp fileworker.h syntaxanalyzer.cpp syntaxanalyzer.h int24_t.cpp int24_t.h info.h commands.cpp commands.h codegenerator.cpp codegenerator.h simulator.cpp simulator.h info.cpp)
+        ${myApp_SOURCES})
 
-target_link_libraries(
-        hello_test
-        GTest::gtest_main
-)
+include_directories(${myApp_INCLUDES})
 
-include(GoogleTest)
-gtest_discover_tests(hello_test)
+#target_link_libraries(
+#        hello_test
+#        GTest::gtest_main
+#)
+
+#include(GoogleTest)
+#gtest_discover_tests(hello_test)
