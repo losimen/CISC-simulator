@@ -268,7 +268,7 @@ TEST(TestProgram, neg_NEG_stack)
 TEST(TestProgram, or_OR_pure)
 {
     testProgram("example_programs/or_OR_pure.txt", 1, 5);
-    testProgram("example_programs/or_OR_pure.txt", 2, 160);
+    testProgram("example_programs/or_OR_pure.txt", 2, 5);
 }
 
 

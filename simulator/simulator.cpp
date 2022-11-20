@@ -50,7 +50,6 @@ void Simulator::run()
         if (opcodes[ADD] == opcode)
         {
             doRInstruction([](int a, int b) { return a + b; });
-            state.CF = true;
         }
         else if (opcodes[NAND] == opcode)
         {

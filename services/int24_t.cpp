@@ -26,7 +26,7 @@ int24_t &int24_t::operator=(int value)
 {
     _value = value;
 
-    if (value > INT24_MAX)
+    if (value > INT24_NEG)
         isOverflow = true;
     else
         isOverflow = false;
@@ -39,7 +39,6 @@ int int24_t::to_int() const
 {
     if (_value >= INT24_NEG)
         return -_value;
-//        return _value - INT24_NEG * 2;
     else
         return _value;
 }
