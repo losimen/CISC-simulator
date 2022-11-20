@@ -295,6 +295,11 @@ void Simulator::doRInstruction(std::function<unsigned int(int, int)> func)
     }
 }
 
+const std::array<int24_t, AMOUNT_OF_REGISTERS> &Simulator::getRegisters() const
+{
+    return state.registers;
+}
+
 
 void Simulator::StateStruct::isStackEmpty() const
 {

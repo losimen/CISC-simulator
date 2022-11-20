@@ -1,6 +1,3 @@
-#pragma clang diagnostic push
-#pragma ide diagnostic ignored "cert-err58-cpp"
-
 #include <gtest/gtest.h>
 #include "syntaxanalyzer.h"
 #include "fileworker.h"
@@ -256,17 +253,14 @@ TEST(Label, Correct)
 }
 
 
-TEST(TestProgram, Test1)
-{
-    const std::string fileName = "test_cases/TestProgram_Test1.txt";
-
-    FileWorker fileWorker(fileName);
-    FileContent fileContent = fileWorker.read();
-
-    SyntaxAnalyzer syntaxAnalyzer;
-
-    ASSERT_NO_THROW(syntaxAnalyzer.analyzeCode(fileContent));
-}
-
-
-#pragma clang diagnostic pop
+//TEST(TestProgram, Test1)
+//{
+//    const std::string fileName = "test_cases/TestProgram_Test1.txt";
+//
+//    FileWorker fileWorker(fileName);
+//    FileContent fileContent = fileWorker.read();
+//
+//    SyntaxAnalyzer syntaxAnalyzer;
+//
+//    ASSERT_NO_THROW(syntaxAnalyzer.analyzeCode(fileContent));
+//}

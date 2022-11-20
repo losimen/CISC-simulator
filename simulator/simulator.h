@@ -45,6 +45,7 @@ public:
     Simulator() = delete;
     Simulator(const std::vector<std::string> &fileContent);
 
+    const std::array<int24_t, AMOUNT_OF_REGISTERS> &getRegisters() const;
     void run();
 };
 
