@@ -1,4 +1,4 @@
-#CISC John von Neumann architecture simulator
+# CISC John von Neumann architecture simulator
 
 This is a simulator for the John von Neumann architecture with additional commands. 
 See list of example programs in the `tests/example_programs` folder.
