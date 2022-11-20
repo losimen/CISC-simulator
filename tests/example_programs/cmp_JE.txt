@@ -5,5 +5,5 @@ start noop
     je  end
     beq 0 0 start
 end halt
-a .fill 2
+a .fill 3
 b .fill 2
