@@ -1,0 +1,7 @@
+    lw  0   1   a
+    lw  0   2   b
+start noop
+    shl  1   2   2
+end halt
+a .fill 5
+b .fill 5

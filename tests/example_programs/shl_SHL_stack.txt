@@ -1,0 +1,10 @@
+    lw  0   1   a
+    lw  0   2   b
+start noop
+    push 2
+    push 1
+    shl
+    pop  3
+end halt
+a .fill 2
+b .fill 3

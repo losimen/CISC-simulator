@@ -1,0 +1,9 @@
+    lw  0   1   iter
+    lw  0   2   endP
+start noop
+    dec 1
+    beq  1   2   end
+    beq  0   0   start
+end halt
+iter .fill -1
+endP .fill -10
