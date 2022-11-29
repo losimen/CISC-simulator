@@ -1,0 +1,8 @@
+    lw  0   1   a
+    lw  0   2   b
+start noop
+    jma  1   2   end
+    beq  0   0   start
+end halt
+a .fill 4
+b .fill 3

@@ -1,0 +1,9 @@
+    lw  0   1   a
+    lw  0   2   b
+start noop
+    add 1   2   3
+    adc 4   5   4
+
+end halt
+a .fill 8388607
+b .fill 8388607

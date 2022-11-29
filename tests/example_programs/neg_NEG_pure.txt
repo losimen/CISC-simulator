@@ -1,0 +1,5 @@
+    lw  0   1   a
+start noop
+    neg 1
+end halt
+a .fill 3

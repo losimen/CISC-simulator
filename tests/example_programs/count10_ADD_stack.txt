@@ -1,0 +1,14 @@
+    lw  0   1   iter
+    lw  0   2   step
+    lw  0   3   endP
+start noop
+    push 2
+    push 1
+    add
+    pop 1
+    beq  1   3   end
+    beq  0   0   start
+end halt
+iter .fill 2
+step .fill 2
+endP .fill 10

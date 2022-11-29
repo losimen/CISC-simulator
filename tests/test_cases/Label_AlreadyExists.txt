@@ -1,0 +1,2 @@
+start lw 0 0 0
+start lw 0 0 0

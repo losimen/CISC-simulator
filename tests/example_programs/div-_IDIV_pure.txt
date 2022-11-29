@@ -1,0 +1,7 @@
+    lw  0   1   div
+    lw  0   2   on
+start noop
+    idiv 1   2   3
+end halt
+div .fill -10
+on .fill 5
